@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Blog from './pages/Blog';
+import BlogDetail from './pages/BlogDetail';
+import Topic from './pages/Topic';
+import Resources from './pages/Resources';
+import NotFound from './pages/NotFound';
+import Error from './pages/Error';
 
 function App() {
+  const [hasError, setHasError] = useState(false);
+
+  const resetError = () => setHasError(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Navbar />
+        {hasError ? (
+          <Error reset={resetError} />
+        ) : (
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogDetail />} />
+            <Route path="/topics/:topic" element={<Topic />} />
+            <Route path="/resources" element={<Resources />} />  {/* Add route for Resources */}
+            <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
+          </Routes>
+        )}
+      </Router>
     </div>
   );
 }
