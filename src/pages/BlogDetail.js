@@ -50,7 +50,7 @@ const BlogDetail = () => {
         <Card className="mb-8">
           <div className="card-header">
             <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 space-y-2 md:space-y-0">
               <span className="text-gray-600 dark:text-gray-400">{new Date(post.date).toLocaleDateString()}</span>
               <span className="bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
                 {post.topic}

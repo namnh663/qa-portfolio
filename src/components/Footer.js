@@ -11,13 +11,13 @@ const Footer = () => {
                         <h3 className="text-2xl font-bold text-gray-800 dark:text-white">QA Engineer</h3>
                         <p className="text-gray-600 dark:text-gray-300">Passionate about creating high-quality software testing solutions.</p>
                         <div className="flex space-x-4">
-                            <a href="mailto:namnh663@gmail.com" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
+                            <a href="mailto:namnh663@gmail.com" aria-label="Email" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
                                 <FaEnvelope className="h-6 w-6" />
                             </a>
-                            <a href="https://www.linkedin.com/in/namnh663" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
+                            <a href="https://www.linkedin.com/in/namnh663" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
                                 <FaLinkedin className="h-6 w-6" />
                             </a>
-                            <a href="https://github.com/namnh663" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
+                            <a href="https://github.com/namnh663" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
                                 <FaGithub className="h-6 w-6" />
                             </a>
                         </div>
@@ -28,15 +28,15 @@ const Footer = () => {
                         <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Frontend Technologies</h3>
                         <div className="grid grid-cols-3 gap-4">
                             <div className="flex flex-col items-center">
-                                <FaReact className="h-10 w-10 text-blue-500" />
+                                <FaReact className="h-10 w-10 text-blue-500" aria-label="React" />
                                 <span className="text-xs mt-1 text-gray-600 dark:text-gray-400">React</span>
                             </div>
                             <div className="flex flex-col items-center">
-                                <SiTailwindcss className="h-10 w-10 text-blue-400" />
+                                <SiTailwindcss className="h-10 w-10 text-blue-400" aria-label="Tailwind CSS" />
                                 <span className="text-xs mt-1 text-gray-600 dark:text-gray-400">Tailwind CSS</span>
                             </div>
                             <div className="flex flex-col items-center">
-                                <SiJavascript className="h-10 w-10 text-blue-600" />
+                                <SiJavascript className="h-10 w-10 text-blue-600" aria-label="JavaScript" />
                                 <span className="text-xs mt-1 text-gray-600 dark:text-gray-400">JavaScript</span>
                             </div>
                         </div>
@@ -47,15 +47,15 @@ const Footer = () => {
                         <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Backend Technologies</h3>
                         <div className="grid grid-cols-3 gap-4">
                             <div className="flex flex-col items-center">
-                                <FaNodeJs className="h-10 w-10 text-green-600" />
+                                <FaNodeJs className="h-10 w-10 text-green-600" aria-label="Node.js" />
                                 <span className="text-xs mt-1 text-gray-600 dark:text-gray-400">Node.js</span>
                             </div>
                             <div className="flex flex-col items-center">
-                                <SiPostgresql className="h-10 w-10 text-blue-600" />
+                                <SiPostgresql className="h-10 w-10 text-blue-600" aria-label="PostgreSQL" />
                                 <span className="text-xs mt-1 text-gray-600 dark:text-gray-400">PostgreSQL</span>
                             </div>
                             <div className="flex flex-col items-center">
-                                <SiSupabase className="h-10 w-10 text-blue-500" />
+                                <SiSupabase className="h-10 w-10 text-blue-500" aria-label="Supabase" />
                                 <span className="text-xs mt-1 text-gray-600 dark:text-gray-400">Supabase</span>
                             </div>
                         </div>

@@ -38,7 +38,7 @@ export default function Resources() {
     fetchResources();
   }, []);
 
-  const filteredResources = resources.filter(resource => 
+  const filteredResources = resources.filter(resource =>
     resource.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (selectedType === 'All' || resource.type === selectedType)
   );
@@ -52,7 +52,7 @@ export default function Resources() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
       <main className="container mx-auto px-6 py-8">
-        <motion.h1 
+        <motion.h1
           className="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -62,12 +62,13 @@ export default function Resources() {
         </motion.h1>
 
         {/* Search and Filter Section */}
-        <motion.div 
+        <motion.div
           className="mb-8 flex flex-col md:flex-row items-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
+          {/* Search Input */}
           <div className="relative w-full md:w-auto flex-grow">
             <input
               id="resource-search"
@@ -80,7 +81,9 @@ export default function Resources() {
             />
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
-          <div className="flex gap-2 overflow-x-auto">
+
+          {/* Filter Buttons */}
+          <div className="flex gap-2 overflow-x-auto whitespace-nowrap scroll-smooth w-full md:w-auto">
             {types.map(type => (
               <Button
                 key={type}
@@ -95,7 +98,7 @@ export default function Resources() {
         </motion.div>
 
         {/* Resource Cards */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
