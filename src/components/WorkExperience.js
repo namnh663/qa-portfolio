@@ -14,7 +14,7 @@ const WorkExperience = () => {
     }
     // Convert "MMM YYYY" string to a Date object
     const [month, year] = dateStr.split(" ");
-    return new Date(`${month} 1, ${year}`);  // Example: "Mar 2021" => "Mar 1, 2021"
+    return new Date(`${month} 1, ${year}`);  // Example: "Mar 2024" => "Mar 1, 2024"
   };
 
   useEffect(() => {

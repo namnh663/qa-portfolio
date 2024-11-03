@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import supabase from '../supabaseClient';  // Your configured Supabase client
+import supabase from '../supabaseClient';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import LoadingSpinner from '../components/LoadingSpinner';  // Global loading spinner component
-import NotFound from './NotFound';  // Import the NotFound component
+import LoadingSpinner from '../components/LoadingSpinner';
+import NotFound from './NotFound';
 
 const BlogDetail = () => {
-  const { id } = useParams();  // Get the blog post id from the URL
+  const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);  // Global loading state
-  const [error, setError] = useState(null);  // Error state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
-      setLoading(true);  // Start loading
+      setLoading(true);
       const { data, error } = await supabase
         .from('posts')
         .select('*')
@@ -24,25 +24,66 @@ const BlogDetail = () => {
 
       if (error) {
         console.error('Error fetching post:', error);
-        setError(error);  // Set error state if fetching fails
+        setError(error);
       } else {
         setPost(data);
       }
-      setLoading(false);  // Stop loading when data is fetched
+      setLoading(false);
     };
 
     fetchPost();
   }, [id]);
 
-  // Show the global loading spinner if loading
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  // Show the NotFound page if there is an error or the post is not found
   if (error || !post) {
     return <NotFound />;
   }
+
+  // Manual Markdown Parsing Function
+  const renderContent = (content) => {
+    const lines = content.split('\n');
+
+    return lines.map((line, index) => {
+      // Render headers
+      if (line.startsWith('# ')) {
+        return <h1 key={index} className="text-2xl font-bold mb-4">{line.slice(2)}</h1>;
+      } else if (line.startsWith('## ')) {
+        return <h2 key={index} className="text-xl font-semibold mb-3">{line.slice(3)}</h2>;
+      } else if (line.startsWith('### ')) {
+        return <h3 key={index} className="text-lg font-medium mb-2">{line.slice(4)}</h3>;
+      }
+
+      // Render images from the public folder
+      const imageMatch = line.match(/!\[(.*?)\]\((.*?)\)/);
+      if (imageMatch) {
+        const [, alt, imageName] = imageMatch;
+        return (
+          <img
+            key={index}
+            src={`/images/${imageName}`} // Directly referencing the path from the public folder
+            alt={alt}
+            className="w-full h-auto rounded-lg my-4"
+            style={{ maxWidth: '100%' }}
+          />
+        );
+      }
+
+      // Render numbered lists
+      const orderedMatch = line.match(/^\d+\. (.*)/);
+      if (orderedMatch) {
+        const [, text] = orderedMatch; // Only use `text`
+        return (
+          <li key={index} className="ml-6 list-decimal">{text}</li>
+        );
+      }
+
+      // Render plain paragraphs
+      return <p key={index} className="mb-4">{line}</p>;
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
@@ -57,12 +98,8 @@ const BlogDetail = () => {
               </span>
             </div>
           </div>
-          <div className="card-content">
-            <div className="prose dark:prose-invert max-w-none">
-              {post.content.split('\n').map((paragraph, index) => (
-                <p key={index} className="mb-4">{paragraph}</p>
-              ))}
-            </div>
+          <div className="card-content prose dark:prose-invert max-w-none">
+            {renderContent(post.content)}
           </div>
         </Card>
 
