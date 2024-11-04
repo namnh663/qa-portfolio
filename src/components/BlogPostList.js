@@ -1,44 +1,28 @@
-import { useState, useEffect } from 'react';
+// src/components/BlogPostList.js
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import supabase from '../supabaseClient';
-import Button from './Button';
-import Card from './Card';
-import LoadingSpinner from './LoadingSpinner';
+import useFetch from '../hooks/useFetch';
+import { fetchBlogPosts } from '../services/fetchBlogPosts';
+import Card from '../components/ui/Card';
+import LoadingSpinner from './common/LoadingSpinner';
 import Error from '../pages/Error';
+import Pagination from '../components/ui/Pagination';
+
+const postsPerPage = 5;
 
 const BlogPostList = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 5;
+  
+  // Use useFetch to get sorted blog posts
+  const { data: posts, loading, error } = useFetch(fetchBlogPosts);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      const { data, error } = await supabase.from('posts').select('*');
+  if (loading) return <LoadingSpinner />;
+  if (error) return <Error error={error} />;
 
-      if (error) {
-        setError(error);
-      } else {
-        setPosts(data);
-      }
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, []);
-
-  if (error) return <Error error={error} reset={() => setError(null)} />;
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
+  const totalPages = Math.ceil(posts.length / postsPerPage);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-  const totalPages = Math.ceil(posts.length / postsPerPage);
 
   return (
     <div>
@@ -58,17 +42,12 @@ const BlogPostList = () => {
         ))}
       </div>
 
-      <div className="mt-8 flex justify-center space-x-2">
-        {Array.from({ length: totalPages }, (_, i) => (
-          <Button
-            key={i}
-            variant={currentPage === i + 1 ? 'default' : 'outline'}
-            onClick={() => setCurrentPage(i + 1)}
-          >
-            {i + 1}
-          </Button>
-        ))}
-      </div>
+      {/* Pagination Component */}
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };

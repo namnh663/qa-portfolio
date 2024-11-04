@@ -1,33 +1,12 @@
-import { useEffect, useState } from 'react';
-import supabase from '../supabaseClient';
-import LoadingSpinner from '../components/LoadingSpinner';  // Global loading spinner
+import useFetch from '../hooks/useFetch';
+import { fetchCertificates } from '../services/fetchCertificates';
+import LoadingSpinner from './common/LoadingSpinner';
 
 const Certificates = () => {
-    const [certificates, setCertificates] = useState([]);
-    const [loading, setLoading] = useState(true);  // Loading state
+    const { data: certificates, loading, error } = useFetch(fetchCertificates);
 
-    useEffect(() => {
-        const fetchCertificates = async () => {
-            setLoading(true);  // Start loading
-            const { data, error } = await supabase
-                .from('certificates')
-                .select('*');
-
-            if (error) {
-                console.error('Error fetching certificates data:', error);
-            } else {
-                setCertificates(data);
-            }
-            setLoading(false);  // Stop loading after data is fetched
-        };
-
-        fetchCertificates();
-    }, []);
-
-    // Show loading spinner while loading
-    if (loading) {
-        return <LoadingSpinner />;
-    }
+    if (loading) return <LoadingSpinner />;
+    if (error) return <p>Error loading certificates</p>;
 
     return (
         <section id="certificates" className="py-8">

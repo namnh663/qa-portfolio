@@ -1,53 +1,24 @@
-import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import supabase from '../supabaseClient';
-import Footer from '../components/Footer';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import LoadingSpinner from '../components/LoadingSpinner';
+import useFetch from '../hooks/useFetch';
+import { fetchBlogDetail } from '../services/fetchBlogDetail';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import NotFound from './NotFound';
+import Card from '../components/ui/Card';
+import Button from '../components/ui/Button';
+import Footer from '../components/common/Footer';
 
 const BlogDetail = () => {
   const { id } = useParams();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: post, loading, error } = useFetch(fetchBlogDetail, id);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('id', id)
-        .single();
-
-      if (error) {
-        console.error('Error fetching post:', error);
-        setError(error);
-      } else {
-        setPost(data);
-      }
-      setLoading(false);
-    };
-
-    fetchPost();
-  }, [id]);
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error || !post) {
-    return <NotFound />;
-  }
+  if (loading) return <LoadingSpinner />;
+  if (error || !post) return <NotFound />;
 
   // Manual Markdown Parsing Function
   const renderContent = (content) => {
     const lines = content.split('\n');
 
     return lines.map((line, index) => {
-      // Render headers
       if (line.startsWith('# ')) {
         return <h1 key={index} className="text-2xl font-bold mb-4">{line.slice(2)}</h1>;
       } else if (line.startsWith('## ')) {
@@ -56,14 +27,13 @@ const BlogDetail = () => {
         return <h3 key={index} className="text-lg font-medium mb-2">{line.slice(4)}</h3>;
       }
 
-      // Render images from the public folder
       const imageMatch = line.match(/!\[(.*?)\]\((.*?)\)/);
       if (imageMatch) {
         const [, alt, imageName] = imageMatch;
         return (
           <img
             key={index}
-            src={`/images/${imageName}`} // Directly referencing the path from the public folder
+            src={`/images/${imageName}`}
             alt={alt}
             className="w-full h-auto rounded-lg my-4"
             style={{ maxWidth: '100%' }}
@@ -71,16 +41,12 @@ const BlogDetail = () => {
         );
       }
 
-      // Render numbered lists
       const orderedMatch = line.match(/^\d+\. (.*)/);
       if (orderedMatch) {
-        const [, text] = orderedMatch; // Only use `text`
-        return (
-          <li key={index} className="ml-6 list-decimal">{text}</li>
-        );
+        const [, text] = orderedMatch;
+        return <li key={index} className="ml-6 list-decimal">{text}</li>;
       }
 
-      // Render plain paragraphs
       return <p key={index} className="mb-4">{line}</p>;
     });
   };

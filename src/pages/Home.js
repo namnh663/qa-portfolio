@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import Footer from '../components/Footer';
+import Footer from '../components/common/Footer';
 import AboutMe from '../components/AboutMe';
 import WorkExperience from '../components/WorkExperience';
 import Skills from '../components/Skills';
 import Projects from '../components/Projects';
 import Certificates from '../components/Certificates';
-import LoadingSpinner from '../components/LoadingSpinner';  // Import the loading spinner
+import LoadingSpinner from '../components/common/LoadingSpinner';  // Import the loading spinner
 
 const Home = () => {
   const [loading, setLoading] = useState(true);  // Global loading state

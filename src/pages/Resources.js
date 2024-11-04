@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaCode, FaFileAlt, FaSearch, FaVideo } from 'react-icons/fa';
-import supabase from '../supabaseClient';
-import Button from '../components/Button';
-import Card from '../components/Card';
-import Footer from '../components/Footer';
-import LoadingSpinner from '../components/LoadingSpinner'; // Assuming you have a loading spinner component
+import { FaFileAlt, FaVideo, FaCode, FaSearch } from 'react-icons/fa';
+import useFetch from '../hooks/useFetch';
+import { fetchResources } from '../services/fetchResources';
+import Button from '../components/ui/Button';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 const typeIcons = {
   "Article": <FaFileAlt className="h-5 w-5" />,
@@ -15,28 +15,13 @@ const typeIcons = {
   "Tool": <FaCode className="h-5 w-5" />,
 };
 
-export default function Resources() {
-  const [resources, setResources] = useState([]);
+const Resources = () => {
+  const { data: resources, loading, error } = useFetch(fetchResources);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('All');
-  const [loading, setLoading] = useState(true);
 
-  // Fetch resources from Supabase
-  useEffect(() => {
-    const fetchResources = async () => {
-      setLoading(true);
-      const { data, error } = await supabase.from('resources').select('*');
-
-      if (error) {
-        console.error('Error fetching resources:', error);
-      } else {
-        setResources(data);
-      }
-      setLoading(false);
-    };
-
-    fetchResources();
-  }, []);
+  if (loading) return <LoadingSpinner />;
+  if (error) return <p>Error loading resources: {error.message}</p>;
 
   const filteredResources = resources.filter(resource =>
     resource.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -44,10 +29,6 @@ export default function Resources() {
   );
 
   const types = ['All', ...new Set(resources.map(resource => resource.type))];
-
-  if (loading) {
-    return <LoadingSpinner />; // Show loading spinner while data is loading
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
@@ -133,7 +114,8 @@ export default function Resources() {
           ))}
         </motion.div>
       </main>
-      <Footer />
     </div>
   );
-}
+};
+
+export default Resources;

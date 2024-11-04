@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import supabase from '../supabaseClient';
-import Card from './Card';
-import LoadingSpinner from './LoadingSpinner';
+import supabase from '../services/supabaseClient';
+import Card from './ui/Card';
+import LoadingSpinner from './common/LoadingSpinner';
 
 const BlogTopics = () => {
   const [topics, setTopics] = useState([]);

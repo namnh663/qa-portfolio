@@ -1,33 +1,12 @@
-import { useEffect, useState } from 'react';
-import supabase from '../supabaseClient';
-import LoadingSpinner from '../components/LoadingSpinner';  // Global loading spinner
+import useFetch from '../hooks/useFetch';
+import { fetchSkills } from '../services/fetchSkills';
+import LoadingSpinner from './common/LoadingSpinner';
 
 const Skills = () => {
-    const [skills, setSkills] = useState([]);
-    const [loading, setLoading] = useState(true);  // Loading state
+    const { data: skills, loading, error } = useFetch(fetchSkills);
 
-    useEffect(() => {
-        const fetchSkills = async () => {
-            setLoading(true);  // Start loading
-            const { data, error } = await supabase
-                .from('skills')
-                .select('*');
-
-            if (error) {
-                console.error('Error fetching skills data:', error);
-            } else {
-                setSkills(data);
-            }
-            setLoading(false);  // Stop loading after data is fetched
-        };
-
-        fetchSkills();
-    }, []);
-
-    // Show loading spinner while loading
-    if (loading) {
-        return <LoadingSpinner />;
-    }
+    if (loading) return <LoadingSpinner />;
+    if (error) return <p>Error loading skills</p>;
 
     return (
         <section id="skills" className="py-8">

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import Footer from '../components/Footer';
+import Footer from '../components/common/Footer';
 import BlogPostList from '../components/BlogPostList';
 import BlogTopics from '../components/BlogTopics';
-import LoadingSpinner from '../components/LoadingSpinner';  // Import the loading spinner
+import LoadingSpinner from '../components/common/LoadingSpinner';  // Import the loading spinner
 
 const Blog = () => {
   const [loading, setLoading] = useState(true);  // Global loading state

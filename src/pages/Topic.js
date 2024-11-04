@@ -1,48 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import supabase from '../supabaseClient';
-import Card from '../components/Card';
-import Button from '../components/Button';
-import LoadingSpinner from '../components/LoadingSpinner';
+import useFetch from '../hooks/useFetch';
+import { fetchTopic } from '../services/fetchTopic';
+import Card from '../components/ui/Card';
+import Button from '../components/ui/Button';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import Pagination from '../components/ui/Pagination';
 import NotFound from './NotFound';
 
+const postsPerPage = 5;
+
 const Topic = () => {
-  const { topic } = useParams();  // Get the topic from the URL
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { topic } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('topic', topic);
-
-      if (error) {
-        console.error('Error fetching topic posts:', error);
-        setError(error);
-      } else if (data.length === 0) {
-        setError('Topic not found');
-      } else {
-        setPosts(data);
-      }
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, [topic]);
+  // Use useFetch with fetchTopicPosts and topic as param
+  const { data: posts, loading, error } = useFetch(fetchTopic, topic);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <NotFound />;
 
+  const totalPages = Math.ceil(posts.length / postsPerPage);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-  const totalPages = Math.ceil(posts.length / postsPerPage);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
@@ -68,18 +49,12 @@ const Topic = () => {
           ))}
         </div>
 
-        {/* Pagination Buttons */}
-        <div className="mt-8 flex justify-center space-x-2">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <Button
-              key={i}
-              variant={currentPage === i + 1 ? 'default' : 'outline'}
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              {i + 1}
-            </Button>
-          ))}
-        </div>
+        {/* Pagination Component */}
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
 
         {/* Back to All Posts Button */}
         <div className="mt-8">

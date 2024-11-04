@@ -1,33 +1,12 @@
-import { useEffect, useState } from 'react';
-import supabase from '../supabaseClient';
-import LoadingSpinner from '../components/LoadingSpinner';  // Global loading spinner
+import useFetch from '../hooks/useFetch';
+import { fetchProjects } from '../services/fetchProjects';
+import LoadingSpinner from './common/LoadingSpinner';
 
 const Projects = () => {
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);  // Loading state
+    const { data: projects, loading, error } = useFetch(fetchProjects);
 
-    useEffect(() => {
-        const fetchProjects = async () => {
-            setLoading(true);  // Start loading
-            const { data, error } = await supabase
-                .from('projects')
-                .select('*');
-
-            if (error) {
-                console.error('Error fetching projects data:', error);
-            } else {
-                setProjects(data);
-            }
-            setLoading(false);  // Stop loading after data is fetched
-        };
-
-        fetchProjects();
-    }, []);
-
-    // Show loading spinner while loading
-    if (loading) {
-        return <LoadingSpinner />;
-    }
+    if (loading) return <LoadingSpinner />;
+    if (error) return <p>Error loading projects</p>;
 
     return (
         <section id="projects" className="py-8">
