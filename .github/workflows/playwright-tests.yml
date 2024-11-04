@@ -24,7 +24,8 @@ jobs:
 
             if [ "$DEPLOYMENT_URL" != "null" ]; then
               echo "Deployment URL: $DEPLOYMENT_URL"
-              echo "::set-output name=deployment_url::https://$DEPLOYMENT_URL"
+              # Use environment file to set output
+              echo "deployment_url=https://$DEPLOYMENT_URL" >> $GITHUB_ENV
               break
             fi
 
@@ -51,11 +52,11 @@ jobs:
         run: npx playwright test
         env:
           CI: true
-          BASE_URL: ${{ needs.wait-for-vercel-deployment.outputs.deployment_url }}
+          BASE_URL: ${{ env.deployment_url }}
 
       - name: Upload Playwright Report (if tests fail)
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Updated to v3
         with:
           name: playwright-report
           path: playwright-report
