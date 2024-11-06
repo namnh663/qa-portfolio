@@ -14,10 +14,10 @@ const AboutMe = () => {
     <section id="about" className="py-8">
       <div className="container mx-auto">
         <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
-          <h2 className="flex items-center text-2xl font-bold">About Me</h2>
+          <h2 data-testid="about-title" className="flex items-center text-2xl font-bold">About Me</h2>
           
           {/* Render markdown content */}
-          <div className="mt-4 text-gray-600 dark:text-gray-300">
+          <div data-testid="about-content" className="mt-4 text-gray-600 dark:text-gray-300">
             <ReactMarkdown
               components={{
                 p: ({ node, ...props }) => <p className="mb-4" {...props} />,

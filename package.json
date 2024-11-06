@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@estruyf/github-actions-reporter": "^1.9.2",
     "@supabase/supabase-js": "^2.45.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -22,7 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:e2e": "playwright test",
+    "test:integration": "playwright test tests/integration",
+    "test:e2e": "playwright test tests/e2e",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

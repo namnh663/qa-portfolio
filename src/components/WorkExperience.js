@@ -39,26 +39,18 @@ const WorkExperience = () => {
     <section id="experience" className="py-8">
       <div className="container mx-auto">
         <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
-          <h2 className="flex items-center text-2xl font-bold">Work Experience</h2>
-          <div className="mt-4 space-y-4">
+          <h2 data-testid="experience-title" className="flex items-center text-2xl font-bold">Work Experience</h2>
+          <div data-testid="experience-list" className="mt-4 space-y-4">
             {sortedExperiences.map((exp) => (
-              <div key={exp.id} className="border-l-4 border-primary pl-4 py-2">
-                <h3 className="font-semibold text-lg">
+              <div key={exp.id} data-testid={`experience-item-${exp.id}`} className="border-l-4 border-primary pl-4 py-2">
+                <h3 data-testid={`experience-role-${exp.id}`} className="font-semibold text-lg">
                   {exp.role} at {exp.company}
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p data-testid={`experience-date-${exp.id}`} className="text-sm text-gray-600 dark:text-gray-400">
                   {exp.start_date} - {exp.end_date ? exp.end_date : 'Present'}
                 </p>
-
-                {/* Render description with Markdown support */}
-                <div className="mt-2 text-gray-600 dark:text-gray-300">
-                  <ReactMarkdown
-                    components={{
-                      p: ({ node, ...props }) => <p className="mb-4" {...props} />,
-                    }}
-                  >
-                    {exp.description}
-                  </ReactMarkdown>
+                <div data-testid={`experience-description-${exp.id}`} className="mt-2 text-gray-600 dark:text-gray-300">
+                  <ReactMarkdown>{exp.description}</ReactMarkdown>
                 </div>
               </div>
             ))}

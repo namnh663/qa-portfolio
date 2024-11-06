@@ -12,14 +12,12 @@ const Certificates = () => {
         <section id="certificates" className="py-8">
             <div className="container mx-auto">
                 <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
-                    <h2 className="flex items-center text-2xl font-bold">
-                        Certificates
-                    </h2>
-                    <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    <h2 data-testid="certificates-title" className="flex items-center text-2xl font-bold">Certificates</h2>
+                    <div data-testid="certificates-grid" className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {certificates.map((cert) => (
-                            <div key={cert.id} className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 text-center">
-                                <h3 className="font-semibold">{cert.name}</h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <div key={cert.id} data-testid={`certificate-item-${cert.id}`} className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 text-center">
+                                <h3 data-testid={`certificate-name-${cert.id}`} className="font-semibold">{cert.name}</h3>
+                                <p data-testid={`certificate-org-${cert.id}`} className="text-sm text-gray-600 dark:text-gray-400">
                                     {cert.issuing_org} • {new Date(cert.issue_date).toLocaleDateString()}
                                 </p>
                             </div>

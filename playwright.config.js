@@ -1,6 +1,8 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
 
+require('dotenv').config({ path: '.env.local' });
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -15,7 +17,14 @@ module.exports = defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    ['@estruyf/github-actions-reporter', {
+      title: 'Reporter',
+      useDetails: true,
+      showError: true
+    }]
+  ],
   /* Shared settings for all the projects below. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -44,9 +53,9 @@ module.exports = defineConfig({
   /* Conditionally run the local dev server */
   webServer: !process.env.BASE_URL
     ? {
-        command: 'npm start',
-        url: 'http://127.0.0.1:3000',
-        reuseExistingServer: !process.env.CI,
-      }
+      command: 'npm start',
+      url: 'http://127.0.0.1:3000',
+      reuseExistingServer: !process.env.CI,
+    }
     : undefined,  // Skip starting a server if BASE_URL is defined
 });
