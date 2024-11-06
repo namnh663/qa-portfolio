@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# QA Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based portfolio showcasing quality assurance (QA) test cases and practices, designed to highlight proficiency in automated testing, particularly using Playwright.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Features](#features)
+- [Technologies](#technologies)
+- [Setup and Installation](#setup-and-installation)
+- [Scripts](#scripts)
+- [Usage](#usage)
+- [Testing](#testing)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Automated Testing**: Integrated with Playwright for executing end-to-end tests.
+- **React UI**: Built with React to showcase test cases in a modern, user-friendly interface.
+- **Customizable and Extensible**: Easily adaptable to new test cases or test suites.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies
 
-### `npm test`
+- **React**: Frontend framework for building a dynamic UI.
+- **Playwright**: Automation framework for running end-to-end tests.
+- **Node.js**: JavaScript runtime for backend and dependency management.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup and Installation
 
-### `npm run build`
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/namnh663/qa-portfolio.git
+   cd qa-portfolio
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Install dependencies**:
+   Make sure you have Node.js and npm installed. Then, run:
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Run the development server**:
+   ```bash
+   npm start
+   ```
+   This will start the application at `http://localhost:3000` by default.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Scripts
 
-### `npm run eject`
+This project includes several npm scripts for development, testing, and building:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Start**: Runs the app in development mode.
+  ```bash
+  npm start
+  ```
+- **Test**: Launches the test runner.
+  ```bash
+  npm test
+  ```
+- **Build**: Builds the app for production.
+  ```bash
+  npm run build
+  ```
+- **Eject**: Removes the create-react-app build dependency, allowing custom configuration.
+  ```bash
+  npm run eject
+  ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. **Running the Application**:
+   Open [http://localhost:3000](http://localhost:3000) to view the QA Portfolio in your browser.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. **Adding Test Cases**:
+   - New test cases can be added to the `tests` folder and should follow the project's testing conventions.
+   - Integrate test cases within the Playwright framework to enable automated execution.
 
-## Learn More
+## Testing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project includes end-to-end tests powered by Playwright:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Run Tests**:
+  ```bash
+  npx playwright test
+  ```
+- **Test Reporting**: Playwright generates detailed test reports, allowing you to track the status and performance of each test case.
