@@ -19,8 +19,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1/3, 2/3, 3/3]
-        test-type: [integration, e2e]
+        shard: [1/4, 2/4, 3/4, 4/4]
+        test-type: [unit, integration, e2e]
 
     steps:
       - name: Checkout code
@@ -54,3 +54,9 @@ jobs:
           name: ${{ matrix.test-type }}-test-report
           path: playwright-report
           retention-days: 30
+
+      - name: Generate Test Summary
+        if: always()
+        run: |
+          echo "### Test Results for ${{ matrix.test-type }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Shard: ${{ matrix.shard }}" >> $GITHUB_STEP_SUMMARY
