@@ -17,7 +17,8 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html']
+    ['html'],
+    ['playwright-tesults-reporter', { 'tesults-target': process.env.TESULTS_TARGET_PLAYWRIGHT }]
   ],
   /* Shared settings for all the projects below. */
   use: {
