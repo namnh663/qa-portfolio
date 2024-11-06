@@ -19,11 +19,7 @@ module.exports = defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html'],
-    ['@estruyf/github-actions-reporter', {
-      title: 'Reporter',
-      useDetails: true,
-      showError: true
-    }]
+    ['@estruyf/github-actions-reporter']
   ],
   /* Shared settings for all the projects below. */
   use: {
