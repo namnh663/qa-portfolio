@@ -1,6 +1,5 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
-
 require('dotenv').config({ path: '.env.local' });
 
 /**
@@ -18,8 +17,7 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html'],
-    ['@estruyf/github-actions-reporter']
+    ['html']
   ],
   /* Shared settings for all the projects below. */
   use: {

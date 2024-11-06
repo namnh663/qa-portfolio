@@ -25,7 +25,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Integration Tests
-        run: npm run test:integration
+        run: npx playwright test src/tests/integration
         env:
           CI: true
           BASE_URL: ${{ vars.BASE_URL }}
@@ -58,7 +58,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run E2E Tests
-        run: npm run test:e2e
+        run: npx playwright test src/tests/e2e
         env:
           CI: true
           BASE_URL: ${{ vars.BASE_URL }}
