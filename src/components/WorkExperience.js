@@ -50,7 +50,13 @@ const WorkExperience = () => {
                   {exp.start_date} - {exp.end_date ? exp.end_date : 'Present'}
                 </p>
                 <div data-testid={`experience-description-${exp.id}`} className="mt-2 text-gray-600 dark:text-gray-300">
-                  <ReactMarkdown>{exp.description}</ReactMarkdown>
+                  <ReactMarkdown
+                    components={{
+                      p: ({ node, ...props }) => <p className="[&:not(:last-child)]:mb-4" {...props} />,
+                    }}
+                  >
+                    {exp.description}
+                  </ReactMarkdown>
                 </div>
               </div>
             ))}
