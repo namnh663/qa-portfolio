@@ -6,6 +6,7 @@ import { fetchResources } from '../services/fetchResources';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import Footer from '../components/common/Footer';
 
 const typeIcons = {
   "Article": <FaFileAlt className="h-5 w-5" />,
@@ -114,6 +115,7 @@ const Resources = () => {
           ))}
         </motion.div>
       </main>
+      <Footer />
     </div>
   );
 };
