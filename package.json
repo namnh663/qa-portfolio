@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@estruyf/github-actions-reporter": "^1.9.2",
+    "@jbangdev/jbang": "^0.2.3",
     "@supabase/supabase-js": "^2.45.6",
     "@tanstack/react-query": "^5.60.5",
     "@testing-library/user-event": "^13.5.0",
