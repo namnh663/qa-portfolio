@@ -24,6 +24,7 @@ yarn-error.log*
 node_modules/
 /tests-examples/
 /test-results/
+/target/
 /playwright-report/
 /blob-report/
 /playwright/.cache/

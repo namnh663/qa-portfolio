@@ -26,9 +26,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:unit": "playwright test src/tests/unit",
+    "test:api": "node karate.exec.js src/tests/api",
     "test:integration": "playwright test tests/integration",
-    "test:e2e": "playwright test tests/e2e",
-    "eject": "react-scripts eject"
+    "test:e2e": "playwright test tests/e2e"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@karatelabs/karate": "^0.3.2",
     "@playwright/test": "^1.48.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",

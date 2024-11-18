@@ -32,6 +32,9 @@ export class HomePage {
         // Navigation links
         this.homeLink = page.getByRole('link', { name: 'Home' });
         this.blogLink = page.getByRole('link', { name: 'Blog' });
+        this.learningLink = page.getByRole('link', { name: 'Learning' });
+        this.toolsButton = page.getByRole('button', { name: 'Tools ▼' });
+        this.airportCalculatorLink = page.getByRole('link', { name: 'Airport Calculator' });
         this.resourcesLink = page.getByRole('link', { name: 'Resources' });
 
         // Social links
@@ -58,6 +61,14 @@ export class HomePage {
         await Promise.all([
             expect(this.homeLink).toBeVisible(),
             expect(this.blogLink).toBeVisible(),
+            expect(this.learningLink).toBeVisible(),
+            expect(this.toolsButton).toBeVisible()
+        ]);
+
+        // Click Tools dropdown to verify its menu items
+        await this.toolsButton.click();
+        await Promise.all([
+            expect(this.airportCalculatorLink).toBeVisible(),
             expect(this.resourcesLink).toBeVisible()
         ]);
     }
