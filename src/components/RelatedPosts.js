@@ -6,27 +6,25 @@ const RelatedPosts = ({ currentPostId, posts = [] }) => {
     ?.slice(0, 3) || [];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {relatedPosts.map((post) => (
         <Link 
           key={post?.id}
           to={`/learning/${post?.id}`} 
-          className="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
+          className="group bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-200"
         >
-          <div className="h-1 bg-gradient-to-r from-indigo-600 to-blue-600"></div>
           <div className="p-6">
-            <div className="flex items-center mb-3">
-              <span className="w-2 h-2 rounded-full bg-blue-600 mr-2"></span>
-              <span className="text-sm text-gray-600 dark:text-gray-400">{post?.category}</span>
-            </div>
+            <span className="text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400">
+              {post?.category}
+            </span>
             
-            <h3 className="font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-150">
+            <h3 className="font-medium text-gray-900 dark:text-white mt-2 mb-3 group-hover:underline">
               {post?.title}
             </h3>
             
-            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>{post?.read_time} read</span>
             </div>

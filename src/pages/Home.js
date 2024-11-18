@@ -1,9 +1,9 @@
 import Footer from '../components/common/Footer';
-import AboutMe from '../components/AboutMe';
-import WorkExperience from '../components/WorkExperience';
-import Skills from '../components/Skills';
-import Projects from '../components/Projects';
-import Certificates from '../components/Certificates';
+import AboutMe from '../components/home/AboutMe';
+import WorkExperience from '../components/home/WorkExperience';
+import Skills from '../components/home/Skills';
+import Projects from '../components/home/Projects';
+import Certificates from '../components/home/Certificates';
 
 const Home = () => {
 
@@ -16,7 +16,7 @@ const Home = () => {
         <Projects />
         <Certificates />
       </main>
-      <Footer />  {/* Reuse Footer component */}
+      <Footer />
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import useFetch from '../hooks/useFetch';
-import { fetchProjects } from '../services/fetchProjects';
-import LoadingSpinner from './common/LoadingSpinner';
+import useFetch from '../../hooks/useFetch';
+import { fetchProjects } from '../../services/fetchProjects';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 const Projects = () => {
     const { data: projects, loading, error } = useFetch(fetchProjects);

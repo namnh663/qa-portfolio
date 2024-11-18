@@ -1,6 +1,6 @@
-import useFetch from '../hooks/useFetch';
-import { fetchCertificates } from '../services/fetchCertificates';
-import LoadingSpinner from './common/LoadingSpinner';
+import useFetch from '../../hooks/useFetch';
+import { fetchCertificates } from '../../services/fetchCertificates';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 const Certificates = () => {
     const { data: certificates, loading, error } = useFetch(fetchCertificates);

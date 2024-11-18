@@ -70,7 +70,7 @@ const Learning = () => {
               <Card>
                 <div className="flex flex-col h-full">
                   <div className="mb-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
                       {post.category}
                     </span>
                   </div>

@@ -1,33 +1,15 @@
-import { useState, useEffect } from 'react';
 import Footer from '../components/common/Footer';
-import BlogPostList from '../components/BlogPostList';
-import BlogTopics from '../components/BlogTopics';
-import LoadingSpinner from '../components/common/LoadingSpinner';  // Import the loading spinner
+import BlogPostList from '../components/blog/BlogPostList';
+import BlogTopics from '../components/blog/BlogTopics';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import Error from './Error';
+import { useBlogData } from '../hooks/useBlogData';
 
 const Blog = () => {
-  const [loading, setLoading] = useState(true);  // Global loading state
+  const { posts, topics, loading, error } = useBlogData();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Simulate data fetching by fetching blog posts and topics
-        setLoading(true);
-        // You can add real data fetching logic here, for example:
-        // await fetch('/api/blogPosts');
-        await Promise.all([
-          // Simulate fetching blog posts and topics
-        ]);
-      } finally {
-        setLoading(false);  // Set loading to false after data is fetched
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <LoadingSpinner />;  // Display loading spinner while data is being fetched
-  }
+  if (loading) return <LoadingSpinner />;
+  if (error) return <Error error={error} />;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
@@ -35,14 +17,13 @@ const Blog = () => {
         <h1 className="text-3xl font-bold mb-6">Latest Posts</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <BlogPostList />
+            <BlogPostList posts={posts} />
           </div>
           <div>
-            <BlogTopics />
+            <BlogTopics topics={topics} />
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );

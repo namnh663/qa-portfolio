@@ -1,7 +1,7 @@
 // src/components/AboutMe.js
-import useFetch from '../hooks/useFetch';
-import { fetchAbout } from '../services/fetchAbout';
-import LoadingSpinner from './common/LoadingSpinner';
+import useFetch from '../../hooks/useFetch';
+import { fetchAbout } from '../../services/fetchAbout';
+import LoadingSpinner from '../common/LoadingSpinner';
 import ReactMarkdown from 'react-markdown';
 
 const AboutMe = () => {

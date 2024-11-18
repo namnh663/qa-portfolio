@@ -1,6 +1,6 @@
-import useFetch from '../hooks/useFetch';
-import { fetchSkills } from '../services/fetchSkills';
-import LoadingSpinner from './common/LoadingSpinner';
+import useFetch from '../../hooks/useFetch';
+import { fetchSkills } from '../../services/fetchSkills';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 const Skills = () => {
     const { data: skills, loading, error } = useFetch(fetchSkills);

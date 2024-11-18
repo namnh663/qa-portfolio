@@ -1,7 +1,7 @@
 // src/components/WorkExperience.js
-import useFetch from '../hooks/useFetch';
-import { fetchWorkExperience } from '../services/fetchWorkExperience';
-import LoadingSpinner from './common/LoadingSpinner';
+import useFetch from '../../hooks/useFetch';
+import { fetchWorkExperience } from '../../services/fetchWorkExperience';
+import LoadingSpinner from '../common/LoadingSpinner';
 import ReactMarkdown from 'react-markdown';
 
 // Helper function to parse "MMM YYYY" date string
