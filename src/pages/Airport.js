@@ -121,15 +121,15 @@ function AirportDashboard() {
               {distance && (
                 <div className="grid grid-cols-3 gap-4 pt-4">
                   <div className="text-center">
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Miles</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">mi</div>
                     <div className="text-xl font-bold">{distance.miles.toFixed(2)}</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Kilometers</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">km</div>
                     <div className="text-xl font-bold">{distance.kilometers.toFixed(2)}</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Nautical Miles</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">nmi</div>
                     <div className="text-xl font-bold">{distance.nautical_miles.toFixed(2)}</div>
                   </div>
                 </div>

@@ -1,0 +1,57 @@
+version: 2.1
+
+executors:
+  flutter:
+    docker:
+      - image: cirrusci/flutter:stable
+    working_directory: ~/project
+
+jobs:
+  test:
+    executor: flutter
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: flutter pub get
+      - run:
+          name: Run tests
+          command: flutter test integration_test
+
+  build_ios:
+    macos:
+      xcode: "12.5.1"
+    working_directory: ~/project
+    environment:
+      FLUTTER_ROOT: /usr/local/flutter
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+    steps:
+      - checkout
+      - run:
+          name: Install Flutter
+          command: |
+            git clone https://github.com/flutter/flutter.git -b stable --depth 1
+            export PATH="$PATH:`pwd`/flutter/bin"
+      - run:
+          name: Install dependencies
+          command: flutter pub get
+      - run:
+          name: Build iOS
+          command: |
+            flutter build ios --release --no-codesign
+      - run:
+          name: Create IPA
+          command: |
+            xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -sdk iphoneos -configuration Release archive -archivePath $PWD/build/Runner.xcarchive
+            xcodebuild -exportArchive -archivePath $PWD/build/Runner.xcarchive -exportOptionsPlist ios/ExportOptions.plist -exportPath $PWD/build/Runner.ipa
+      - store_artifacts:
+          path: build/Runner.ipa
+          destination: ios
+
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - test
+      - build_ios
