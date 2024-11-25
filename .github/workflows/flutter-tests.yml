@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+env:
+  REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
+  REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
+
 jobs:
   test:
     runs-on: macos-latest
@@ -29,3 +33,31 @@ jobs:
       - run: |
           cd admin/flutter_application
           flutter test integration_test
+
+  build-ios:
+    runs-on: macos-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install dependencies
+        run: |
+          cd admin/flutter_application
+          flutter pub get
+
+      - name: Build iOS App
+        run: |
+          cd admin/flutter_application
+          flutter build ipa --release
+
+      - name: Upload IPA as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: iOS-app
+          path: admin/flutter_application/build/ios/ipa/*.ipa
