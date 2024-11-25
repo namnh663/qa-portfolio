@@ -57,7 +57,7 @@ jobs:
           flutter build ipa --release
 
       - name: Upload IPA as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: iOS-app
           path: admin/flutter_application/build/ios/ipa/*.ipa
