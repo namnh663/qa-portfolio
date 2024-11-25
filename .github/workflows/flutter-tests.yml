@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest # Use macOS for iOS-related steps
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
         run: |
           sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
           xcrun simctl list devices
-          xcrun simctl boot "iPhone 16"
+          xcrun simctl boot "iPhone 14" # Use a valid device name for the iOS Simulator
           xcrun simctl bootstatus
 
       - name: Run tests
