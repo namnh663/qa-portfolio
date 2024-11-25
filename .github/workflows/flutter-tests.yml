@@ -29,7 +29,7 @@ jobs:
         run: |
           sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
           xcrun simctl list devices
-          xcrun simctl boot "iPhone 14" # Use a valid device name for the iOS Simulator
+          xcrun simctl boot "iPhone 15"
           xcrun simctl bootstatus
 
       - name: Run tests
