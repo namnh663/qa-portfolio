@@ -20,17 +20,17 @@ jobs:
       - name: Install CocoaPods
         run: sudo gem install cocoapods
 
-      - name: Install Fastlane
-        run: sudo gem install fastlane
-
       - name: Install dependencies
         run: |
           cd admin/flutter_application
           flutter pub get
 
-      - name: Boot iOS Simulator with Fastlane
+      - name: Boot iOS Simulator
         run: |
-          fastlane run setup_simulator devices:"iPhone 15" os_version:"17.0"
+          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+          SIMULATOR_UDID=$(xcrun simctl list devices | grep -oE "([0-9A-F\-]+) \(Shutdown\)" | head -n 1 | awk '{print $1}')
+          xcrun simctl boot $SIMULATOR_UDID
+          xcrun simctl bootstatus
 
       - name: Run Flutter Integration Tests
         run: |
