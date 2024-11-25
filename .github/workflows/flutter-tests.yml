@@ -6,6 +6,7 @@ on:
       - master
 
 env:
+  # Environment variables will be stored securely in GitHub secrets
   REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
   REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
 
@@ -13,19 +14,29 @@ jobs:
   test:
     runs-on: macos-latest
     steps:
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
+      # Create the .env file using GitHub Secrets
+      - name: Create .env file
+        run: |
+          echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
+          echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
+
+      # Install dependencies
       - name: Install dependencies
         run: |
           cd admin/flutter_application
           flutter pub get
 
+      # Run Flutter integration tests
       - name: Run Flutter Integration Tests
         uses: futureware-tech/simulator-action@v4
         with:
@@ -38,24 +49,35 @@ jobs:
     runs-on: macos-latest
     needs: test
     steps:
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
+      # Create the .env file using GitHub Secrets
+      - name: Create .env file
+        run: |
+          echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
+          echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
+
+      # Install dependencies
       - name: Install dependencies
         run: |
           cd admin/flutter_application
           flutter pub get
 
+      # Build iOS app
       - name: Build iOS App
         run: |
           cd admin/flutter_application
           flutter build ipa --release
 
+      # Upload IPA as an artifact
       - name: Upload IPA as artifact
         uses: actions/upload-artifact@v4
         with:
