@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: macos-latest # Use macOS for iOS-related steps
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,19 +20,19 @@ jobs:
       - name: Install CocoaPods
         run: sudo gem install cocoapods
 
+      - name: Install Fastlane
+        run: sudo gem install fastlane
+
       - name: Install dependencies
         run: |
           cd admin/flutter_application
           flutter pub get
 
-      - name: Boot iOS Simulator
+      - name: Boot iOS Simulator with Fastlane
         run: |
-          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
-          xcrun simctl list devices
-          xcrun simctl boot "iPhone 15"
-          xcrun simctl bootstatus
+          fastlane run setup_simulator devices:"iPhone 15" os_version:"17.0"
 
-      - name: Run tests
+      - name: Run Flutter Integration Tests
         run: |
           cd admin/flutter_application
           flutter test integration_test
