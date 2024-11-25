@@ -3,7 +3,7 @@ version: 2.1
 executors:
   flutter:
     docker:
-      - image: cirrusci/flutter:stable
+      - image: cirrusci/flutter:3.5.4
     working_directory: ~/project
 
 jobs:
