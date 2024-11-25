@@ -1,0 +1,65 @@
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.5.4'
+
+      - name: Install dependencies
+        run: |
+          cd admin/flutter_application
+          flutter pub get
+
+      - name: Run tests
+        run: |
+          cd admin/flutter_application
+          flutter test integration_test
+
+  build_ios:
+    runs-on: macos-latest
+    env:
+      FLUTTER_ROOT: /usr/local/flutter
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Flutter
+        run: |
+          git clone https://github.com/flutter/flutter.git -b stable --depth 1
+          export PATH="$PATH:`pwd`/flutter/bin"
+
+      - name: Install dependencies
+        run: |
+          cd admin/flutter_application
+          flutter pub get
+
+      - name: Build iOS
+        run: |
+          cd admin/flutter_application
+          flutter build ios --release --no-codesign
+
+      - name: Create IPA
+        run: |
+          cd admin/flutter_application
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -sdk iphoneos -configuration Release archive -archivePath $PWD/build/Runner.xcarchive
+          xcodebuild -exportArchive -archivePath $PWD/build/Runner.xcarchive -exportOptionsPlist ios/ExportOptions.plist -exportPath $PWD/build/Runner.ipa
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build
+          path: admin/flutter_application/build/Runner.ipa
