@@ -12,6 +12,8 @@ env:
 jobs:
   setup:
     runs-on: ubuntu-latest
+    outputs:
+      flutter-path: ${{ steps.setup-flutter.outputs.cache-path }}
     steps:
       # Checkout the code
       - name: Checkout code
@@ -19,6 +21,7 @@ jobs:
 
       # Set up Flutter
       - name: Set up Flutter
+        id: setup-flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -46,11 +49,22 @@ jobs:
 
   test:
     runs-on: macos-latest
-    needs: setup
     steps:
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      # Create the .env file
+      - name: Create .env file
+        run: |
+          echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
+          echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
 
       # Run Flutter integration tests
       - name: Start iOS Simulator
@@ -70,6 +84,12 @@ jobs:
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
 
       # Build Android app
       - name: Build Android APK
