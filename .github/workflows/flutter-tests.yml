@@ -98,13 +98,13 @@ jobs:
         with:
           channel: stable
 
-      # Build Android app
-      - name: Build Android APK
+      # Create the .env file
+      - name: Create .env file
         run: |
-          cd admin/flutter_application
-          flutter build apk --release
+          echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
+          echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
 
-      # Debug APK path
+      # Build Android app
       - name: Debug APK path
         run: |
           cd admin/flutter_application
