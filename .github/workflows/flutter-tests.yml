@@ -117,4 +117,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Android-app
-          path: admin/flutter_application/build/app/outputs/flutter-apk/admin-app-release.apk
+          path: admin/flutter_application/build/app/outputs/flutter-apk/app-release.apk
