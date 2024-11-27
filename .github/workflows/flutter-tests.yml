@@ -71,6 +71,7 @@ jobs:
         uses: futureware-tech/simulator-action@v4
         with:
           model: 'iPhone 15'
+          os_version	: '18.1'
 
       - name: Run Integration Tests
         run: |
@@ -108,9 +109,7 @@ jobs:
       - name: Debug APK path
         run: |
           cd admin/flutter_application
-          flutter build apk --release
-          cd build
-          find . -type f
+          flutter build apk --debug
 
       # Upload APK as an artifact
       - name: Upload APK as artifact

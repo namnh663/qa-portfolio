@@ -1,6 +1,6 @@
 # 🌐 Technical Implementation Guide
 
-An in-depth guide covering the technology stack, architectural choices, and setup instructions for the QA Portfolio project.
+An in-depth guide covering the technology stack, architectural choices, setup instructions, and additional details for the QA Portfolio project, including the Flutter application.
 
 ---
 
@@ -31,50 +31,65 @@ An in-depth guide covering the technology stack, architectural choices, and setu
 - **Playwright** for E2E testing
   - 🖥️ Page Object Model for organized tests
   - 📊 Data-driven testing for comprehensive coverage
+- **Karate** for API testing
+
+---
+
+## 🖥️ Flutter Application
+
+### **Project Structure**
+
+#### **Configuration Files**
+- **`.dart_tool/`**: Internal directory for Dart tools and build information.
+- **`pubspec.yaml`**: Defines the project’s dependencies, assets, and other settings.
+- **`pubspec.lock`**: Locks the specific versions of dependencies.
+- **`analysis_options.yaml`**: Configures linting rules for Dart code.
+
+#### **Source Code**
+- **`lib/`**: Contains the main Dart code for the Flutter app.
+  - **`models/`**: Data models.
+  - **`screens/`**: UI screens.
+  - **`widgets/`**: Reusable UI components.
+
+#### **Platform-Specific Code**
+- **`android/`** and **`ios/`**: Platform-specific configurations and native code.
+
+#### **Testing**
+- **`integration_test/`**: Integration test files.
+- **`test/`**: Unit and widget test files.
 
 ---
 
 ## 🔑 Key Implementations
 
 ### 🎨 Styling Architecture
-- **Tailwind configuration** includes:
+- Tailwind configuration includes:
   - Custom color schemes and breakpoints
-  - Scalable typography and spacing
   - Responsive design patterns
-- Component-specific styles for tailored UX
+  - Scalable typography and spacing
 
 ### 🔗 Data Layer
-- **Supabase client setup** with:
-  - 🔄 Real-time subscriptions
-  - 🌐 Data relationships for efficient querying
-  - 🛡️ Error handling
-  - 🗃️ Data caching for enhanced performance
+- Supabase client setup with real-time subscriptions and efficient querying.
 
 ### 🛠️ Test Architecture
-- Page Objects and Test Helpers for code reusability
-- Dynamic test IDs and structured selectors for maintainability
+- Page Objects and Test Helpers for code reusability.
+- API testing using Karate.
 
 ---
 
 ## 📈 Scaling Guidelines
 
 ### 🎨 Styling Scalability
-- Extend Tailwind theme for project-specific needs
-- Create custom plugins for reusable patterns
-- Implement a design system for visual consistency
-- Optimize CSS bundle to reduce load times
+- Extend Tailwind theme for project-specific needs.
+- Implement a design system for visual consistency.
 
 ### 🗄️ Database Scaling
-- Database indexing and query optimization
-- Cache layer for frequently accessed data
-- Connection pooling for high traffic handling
-- Backup strategies for data resilience
+- Database indexing and query optimization.
+- Backup strategies for resilience.
 
 ### 🔍 Testing Infrastructure
-- CI/CD integration for automated deployments
-- Cross-browser and visual regression testing
-- Performance monitoring to catch slowdowns
-- Test reporting for tracking and insights
+- CI/CD integration for automated deployments.
+- Cross-browser and visual regression testing.
 
 ---
 
@@ -83,13 +98,19 @@ An in-depth guide covering the technology stack, architectural choices, and setu
 ### 📂 Clone Repository
 Clone the project locally:
 ```bash
-git clone https://github.com/namnh663/qa-portfolio.git
+git clone <repository-url>
 ```
 
 ### 📦 Install Dependencies
-Install project dependencies:
+
+#### React Application:
 ```bash
 npm install
+```
+
+#### Flutter Application:
+```bash
+flutter pub get
 ```
 
 ### 🔧 Configure Supabase
@@ -99,13 +120,31 @@ npm install @supabase/supabase-js
 ```
 
 ### 🛠️ Start Development
-Launch the development server:
+
+#### React Application:
 ```bash
 npm start
 ```
 
-### 🧪 Run Tests
-Execute the test suite using Playwright:
+#### Flutter Application:
 ```bash
-npx playwright test
+flutter run
 ```
+
+### 🧪 Run Tests
+
+#### React Application:
+- Execute E2E tests using Playwright:
+    ```bash
+    npx playwright test
+    ```
+- Run API tests using Karate:
+    ```bash
+    npm run test:api
+    ```
+
+#### Flutter Application:
+- Run integration tests:
+    ```bash
+    flutter test integration_test
+    ```
