@@ -11,6 +11,7 @@ import Error from './pages/Error';
 import Learning from './pages/Learning';
 import LearningPost from './pages/LearningPost';
 import Airport from './pages/Airport';
+import JsonViewer from './pages/JsonViewer';
 
 function App() {
   const [hasError, setHasError] = useState(false);
@@ -31,9 +32,10 @@ function App() {
             <Route path="/topics/:topic" element={<Topic />} />
             <Route path="/learning" element={<Learning />} />
             <Route path="/learning/:id" element={<LearningPost />} />
-            <Route path="/resources" element={<Resources />} />  {/* Add route for Resources */}
+            <Route path="/resources" element={<Resources />} />
             <Route path="/airport" element={<Airport />} />
-            <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
+            <Route path="/json-viewer" element={<JsonViewer />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         )}
       </Router>

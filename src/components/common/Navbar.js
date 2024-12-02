@@ -14,7 +14,7 @@ const Navbar = () => {
             <Link to="/blog" className="text-gray-800 dark:text-white hover:underline">Blog</Link>
             <Link to="/learning" className="text-gray-800 dark:text-white hover:underline">Learning</Link>
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
                 className="text-gray-800 dark:text-white hover:underline"
               >
@@ -22,14 +22,20 @@ const Navbar = () => {
               </button>
               {isToolsOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1">
-                  <Link 
-                    to="/airport" 
+                  <Link
+                    to="/airport"
                     className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     Airport Calculator
                   </Link>
-                  <Link 
-                    to="/resources" 
+                  <Link
+                    to="/json-viewer"
+                    className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    JSON Viewer
+                  </Link>
+                  <Link
+                    to="/resources"
                     className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     Resources

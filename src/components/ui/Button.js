@@ -1,4 +1,6 @@
-const Button = ({ variant, children, ...props }) => {
+import React from 'react';
+
+const Button = ({ variant = 'default', children, ...props }) => {
     const baseStyles = 'px-4 py-2 rounded text-sm font-medium';
     const variantStyles =
         variant === 'default'
