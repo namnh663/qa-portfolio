@@ -76,10 +76,12 @@ class _MainScreenState extends State<MainScreen> {
           NavigationDestination(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
+            tooltip: 'Navigate to Dashboard',
           ),
           NavigationDestination(
             icon: Icon(Icons.article),
             label: 'Posts',
+            tooltip: 'Navigate to Posts',
           ),
         ],
       ),

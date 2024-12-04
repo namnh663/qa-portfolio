@@ -35,6 +35,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
         IconButton(
           icon: const Icon(Icons.refresh),
           onPressed: () => _refreshPosts(),
+          tooltip: 'Refresh posts',
         ),
       ],
     );
@@ -94,29 +95,37 @@ class _PostsListScreenState extends State<PostsListScreen> {
   }
 
   Widget _buildPostCard(Post post, PostsProvider provider) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: ListTile(
-        title: Text(
-          post.title ?? 'Untitled',
-          style: const TextStyle(fontWeight: FontWeight.bold),
+    return Semantics(
+      label: 'Post title ${post.title ?? 'Untitled'}',
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: ListTile(
+          title: Text(
+            post.title ?? 'Untitled',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            post.content ?? 'No content',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: _buildCardActions(post, provider),
+          onTap: () => _navigateToDetail(post),
+          contentPadding: const EdgeInsets.all(16.0),
         ),
-        subtitle: Text(
-          post.content ?? 'No content',
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: _buildCardActions(post, provider),
-        onTap: () => _navigateToDetail(post),
       ),
     );
   }
 
   Widget _buildCardActions(Post post, PostsProvider provider) {
-    return const Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-      ],
+    return Semantics(
+      label: 'Actions for post ${post.title}',
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Add any action buttons here with appropriate semantics
+        ],
+      ),
     );
   }
 

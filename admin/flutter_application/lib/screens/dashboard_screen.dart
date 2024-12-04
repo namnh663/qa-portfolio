@@ -69,7 +69,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _fetchTopicStats,
-            tooltip: 'Refresh Stats',
+            tooltip: 'Refresh topic statistics',
           ),
         ],
       ),
@@ -97,12 +97,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   final topic = topicStats.keys.elementAt(index);
                   final count = topicStats[topic]!;
                   
-                  return PostStatsCard(
-                    title: topic,
-                    value: count.toString(),
-                    icon: Icons.topic,
-                    color: Colors.primaries[index % Colors.primaries.length],
-                    onTap: () => _navigateToTopicPosts(topic),
+                  return Semantics(
+                    label: 'Topic $topic with $count posts',
+                    button: true,
+                    child: PostStatsCard(
+                      title: topic,
+                      value: count.toString(),
+                      icon: Icons.topic,
+                      color: Colors.primaries[index % Colors.primaries.length],
+                      onTap: () => _navigateToTopicPosts(topic),
+                    ),
                   );
                 },
               ),

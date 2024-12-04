@@ -1,0 +1,14 @@
+appId: com.example.flutterApplication
+name: Blog Posts Flow
+---
+- launchApp
+- tapOn:
+    text: "Posts\nTab 2 of 2"
+- assertVisible:
+    text: "Blog Posts"
+- assertVisible:
+    text: "Refresh posts"
+- assertVisible:
+    text: "Post title Status of Testing in Agile Projects"
+- assertVisible:
+    text: "Post title Key Differences in Testing between Traditional and Agile Approaches"

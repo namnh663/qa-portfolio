@@ -1,0 +1,24 @@
+appId: com.example.flutterApplication
+name: Topics Dashboard Flow
+---
+- launchApp
+- assertVisible: 
+    text: "Topics Dashboard"
+- assertVisible: 
+    text: "Refresh topic statistics"
+- assertVisible: 
+    text: "Topic Agile Testing with 2 posts"
+- assertVisible: 
+    text: "Topic Agile Software Development with 8 posts"
+- assertVisible:
+    text: "Dashboard\nTab 1 of 2"
+- assertVisible:
+    text: "Posts\nTab 2 of 2"
+- tapOn:
+    text: "Topic Agile Testing with 2 posts"
+- assertVisible:
+    text: "Agile Testing Posts"
+- assertVisible:
+    text: "Post title Status of Testing in Agile Projects"
+- assertVisible:
+    text: "Post title Key Differences in Testing between Traditional and Agile Approaches"
