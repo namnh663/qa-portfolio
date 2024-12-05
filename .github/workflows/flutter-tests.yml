@@ -16,19 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Call Setup Workflow
-        uses: ./.github/workflows/setup.yml
+      - name: Call Setup Action
+        uses: ./.github/actions/setup
         with:
           runner: macos-latest
 
-      # Start iOS Simulator
       - name: Start iOS Simulator
         uses: futureware-tech/simulator-action@v4
         with:
           model: 'iPhone 15'
           os_version: '18.1'
 
-      # Run Flutter integration tests
       - name: Run Integration Tests
         run: |
           cd admin/flutter_application
@@ -40,25 +38,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Call Setup Workflow
-        uses: ./.github/workflows/setup.yml
+      - name: Call Setup Action
+        uses: ./.github/actions/setup
         with:
           runner: ubuntu-latest
 
-      # Set up Java 17
       - name: Set up Java 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # Build Android app
       - name: Build Android Debug APK
         run: |
           cd admin/flutter_application
           flutter build apk --debug
 
-      # Upload APK as an artifact
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v4
         with:

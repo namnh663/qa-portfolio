@@ -1,0 +1,39 @@
+name: "Setup Flutter Environment"
+description: "Set up Flutter environment for the project"
+
+inputs:
+  runner:
+    description: "The runner environment to use (e.g., ubuntu-latest, macos-latest)"
+    required: true
+    default: "ubuntu-latest"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+
+    - name: Create .env file
+      run: |
+        echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
+        echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
+      shell: bash
+
+    - name: Cache Flutter dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.pub-cache
+        key: flutter-pub-cache-${{ inputs.runner }}-${{ hashFiles('**/pubspec.yaml') }}
+        restore-keys: |
+          flutter-pub-cache-${{ inputs.runner }}
+
+    - name: Install dependencies
+      run: |
+        cd admin/flutter_application
+        flutter pub get
+      shell: bash
