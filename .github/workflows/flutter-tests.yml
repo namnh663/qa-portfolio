@@ -10,69 +10,22 @@ env:
   REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      flutter-path: ${{ steps.setup-flutter.outputs.cache-path }}
-    steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Set up Flutter
-      - name: Set up Flutter
-        id: setup-flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-
-      # Create the .env file
-      - name: Create .env file
-        run: |
-          echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
-          echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
-
-      # Cache dependencies
-      - name: Cache Flutter dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.pub-cache
-          key: flutter-pub-cache-${{ runner.os }}-${{ hashFiles('**/pubspec.yaml') }}
-          restore-keys: |
-            flutter-pub-cache-${{ runner.os }}
-
-      # Install dependencies
-      - name: Install dependencies
-        run: |
-          cd admin/flutter_application
-          flutter pub get
-
   test:
     runs-on: macos-latest
     steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Set up Flutter
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - name: Call Setup Workflow
+        uses: ./.github/workflows/setup.yml
         with:
-          channel: stable
+          runner: macos-latest
 
-      # Create the .env file
-      - name: Create .env file
-        run: |
-          echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
-          echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
-
-      # Run Flutter integration tests
+      # Start iOS Simulator
       - name: Start iOS Simulator
         uses: futureware-tech/simulator-action@v4
         with:
           model: 'iPhone 15'
-          os_version	: '18.1'
+          os_version: '18.1'
 
+      # Run Flutter integration tests
       - name: Run Integration Tests
         run: |
           cd admin/flutter_application
@@ -80,11 +33,11 @@ jobs:
 
   build-android:
     runs-on: ubuntu-latest
-    needs: setup
     steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Call Setup Workflow
+        uses: ./.github/workflows/setup.yml
+        with:
+          runner: ubuntu-latest
 
       # Set up Java 17
       - name: Set up Java 17
@@ -93,20 +46,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Set up Flutter
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-
-      # Create the .env file
-      - name: Create .env file
-        run: |
-          echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
-          echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
-
       # Build Android app
-      - name: Debug APK path
+      - name: Build Android Debug APK
         run: |
           cd admin/flutter_application
           flutter build apk --debug
