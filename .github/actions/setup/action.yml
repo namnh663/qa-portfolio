@@ -5,7 +5,12 @@ inputs:
   runner:
     description: "The runner environment to use (e.g., ubuntu-latest, macos-latest)"
     required: true
-    default: "ubuntu-latest"
+  supabase_url:
+    description: "Supabase URL"
+    required: true
+  supabase_key:
+    description: "Supabase Key"
+    required: true
 
 runs:
   using: "composite"
@@ -20,8 +25,8 @@ runs:
 
     - name: Create .env file
       run: |
-        echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
-        echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
+        echo "REACT_APP_SUPABASE_URL=${{ inputs.supabase_url }}" >> admin/flutter_application/.env
+        echo "REACT_APP_SUPABASE_KEY=${{ inputs.supabase_key }}" >> admin/flutter_application/.env
       shell: bash
 
     - name: Cache Flutter dependencies
