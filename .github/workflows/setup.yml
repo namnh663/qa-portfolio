@@ -16,23 +16,19 @@ jobs:
   setup:
     runs-on: ${{ inputs.runner }}
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
-      # Create the .env file
       - name: Create .env file
         run: |
           echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> admin/flutter_application/.env
           echo "REACT_APP_SUPABASE_KEY=${{ secrets.REACT_APP_SUPABASE_KEY }}" >> admin/flutter_application/.env
 
-      # Cache dependencies
       - name: Cache Flutter dependencies
         uses: actions/cache@v4
         with:
@@ -41,7 +37,6 @@ jobs:
           restore-keys: |
             flutter-pub-cache-${{ inputs.runner }}
 
-      # Install dependencies
       - name: Install dependencies
         run: |
           cd admin/flutter_application

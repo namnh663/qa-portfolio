@@ -13,6 +13,9 @@ jobs:
   test:
     runs-on: macos-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Call Setup Workflow
         uses: ./.github/workflows/setup.yml
         with:
@@ -34,6 +37,9 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Call Setup Workflow
         uses: ./.github/workflows/setup.yml
         with:
