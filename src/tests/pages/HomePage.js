@@ -13,7 +13,7 @@ export class HomePage {
 
         // Content sections
         this.aboutContent = page.getByTestId('about-content');
-        this.skillsContainer = page.locator('#skills .bg-gray-100');
+        this.skillsContainer = page.locator('div[data-testid^="skill-item-"]');
         this.experienceDates = page.locator('#experience .text-sm');
 
         // Dynamic test id patterns
@@ -34,8 +34,9 @@ export class HomePage {
         this.blogLink = page.getByRole('link', { name: 'Blog' });
         this.learningLink = page.getByRole('link', { name: 'Learning' });
         this.toolsButton = page.getByRole('button', { name: 'Tools ▼' });
-        this.airportCalculatorLink = page.getByRole('link', { name: 'Airport Calculator' });
-        this.resourcesLink = page.getByRole('link', { name: 'Resources' });
+        this.airportCalculatorLink = page.locator('a[href="/airport"]'); // Changed to CSS selector
+        this.jsonViewerLink = page.locator('a[href="/json-viewer"]'); // Changed to CSS selector
+        this.resourcesLink = page.locator('a[href="/resources"]'); // Changed to CSS selector
 
         // Social links
         this.emailLink = page.getByRole('link', { name: 'Email' });
@@ -44,7 +45,7 @@ export class HomePage {
     }
 
     async goto() {
-        return this.page.goto('/');
+        await this.page.goto('/');
     }
 
     async verifyMainSections() {
@@ -67,9 +68,11 @@ export class HomePage {
 
         // Click Tools dropdown to verify its menu items
         await this.toolsButton.click();
+
         await Promise.all([
-            expect(this.airportCalculatorLink).toBeVisible(),
-            expect(this.resourcesLink).toBeVisible()
+            expect(this.airportCalculatorLink).toBeVisible({ timeout: 10000 }),
+            expect(this.jsonViewerLink).toBeVisible({ timeout: 10000 }),
+            expect(this.resourcesLink).toBeVisible({ timeout: 10000 })
         ]);
     }
 

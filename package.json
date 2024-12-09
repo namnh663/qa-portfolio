@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.705.0",
     "@estruyf/github-actions-reporter": "^1.9.2",
     "@jbangdev/jbang": "^0.2.3",
     "@microlink/react-json-view": "^1.23.4",
