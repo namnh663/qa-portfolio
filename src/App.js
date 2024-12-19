@@ -12,6 +12,8 @@ import Learning from './pages/Learning';
 import LearningPost from './pages/LearningPost';
 import Airport from './pages/Airport';
 import JsonViewer from './pages/JsonViewer';
+import Interview from './pages/Interview';
+import UserManagement from './pages/UserManagement';
 
 function App() {
   const [hasError, setHasError] = useState(false);
@@ -35,6 +37,8 @@ function App() {
             <Route path="/resources" element={<Resources />} />
             <Route path="/airport" element={<Airport />} />
             <Route path="/json-viewer" element={<JsonViewer />} />
+            <Route path="/interview" element={<Interview />} />
+            <Route path="/user-management" element={<UserManagement />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         )}
