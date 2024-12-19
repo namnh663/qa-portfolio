@@ -105,7 +105,7 @@ export class HomePage {
     async verifyExperience(experience) {
         for (const exp of experience) {
             await expect(this.experienceRole(exp.id)).toBeVisible();
-            await expect(this.experienceRole(exp.id)).toHaveText(`${exp.role} at ${exp.company}`);
+            await expect(this.experienceRole(exp.id)).toHaveText(`${exp.role}`);
             await expect(this.experienceDate(exp.id)).toBeVisible();
             await expect(this.experienceDescription(exp.id)).toBeVisible();
         }

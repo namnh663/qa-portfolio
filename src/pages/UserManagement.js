@@ -50,7 +50,7 @@ const UserManagement = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="max-w-7xl mx-auto">
           <header className="flex flex-col sm:flex-row justify-between items-center mb-8">
             <div>
@@ -61,7 +61,7 @@ const UserManagement = () => {
                 Manage and view user information with ease
               </p>
             </div>
-            <div className="mt-4 sm:mt-0">
+            <div className="mt-4 sm:mt-0 w-full sm:w-auto">
               <input
                 type="search"
                 id="search-users"
