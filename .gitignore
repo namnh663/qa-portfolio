@@ -31,3 +31,4 @@ node_modules/
 /playwright/.cache/
 /admin/fllutter_application/.env
 /cypress/screenshots/
+.early.coverage

@@ -34,13 +34,14 @@ const Certificates = () => {
                                     className="text-sm text-gray-600 dark:text-gray-300 flex items-center justify-between"
                                 >
                                     <span className="font-medium">{cert.issuing_org}</span>
-                                    <span className="text-blue-500 dark:text-blue-400">
+                                    <span className="text-blue-700 dark:text-blue-400">
                                         {new Date(cert.issue_date).toLocaleDateString()}
                                     </span>
                                 </p>
                             </div>
                         ))}
-                    </div>                </div>
+                    </div>
+                </div>
             </div>
         </section>
     );
