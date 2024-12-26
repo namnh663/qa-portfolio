@@ -35,7 +35,7 @@ function App() {
             <Route path="/learning" element={<Learning />} />
             <Route path="/learning/:id" element={<LearningPost />} />
             <Route path="/resources" element={<Resources />} />
-            <Route path="/airport" element={<Airport />} />
+            <Route path="/airport-calculator" element={<Airport />} />
             <Route path="/json-viewer" element={<JsonViewer />} />
             <Route path="/interview" element={<Interview />} />
             <Route path="/user-management" element={<UserManagement />} />

@@ -30,7 +30,7 @@ const WorkExperience = () => {
   return (
     <section id="experience" className="py-12">
       <div className="container mx-auto">
-        <div className="bg-white dark:bg-gray-900 backdrop-blur-sm rounded-xl shadow-xl p-8">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
           <h2 data-testid="experience-title" className="flex items-center text-2xl font-bold mb-8">
             Work Experience
           </h2>

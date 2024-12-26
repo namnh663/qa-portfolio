@@ -50,7 +50,7 @@ function AirportDashboard() {
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <main className="container mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Airport Data Management</h1>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Airport Data Management</h1>
           <input
             type="text"
             id="airport-search"

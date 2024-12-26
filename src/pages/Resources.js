@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FaFileAlt, FaVideo, FaCode, FaSearch } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaFileAlt, FaVideo, FaCode, FaSearch, FaTimes } from 'react-icons/fa';
 import useFetch from '../hooks/useFetch';
 import { fetchResources } from '../services/fetchResources';
 import Button from '../components/ui/Button';
@@ -16,10 +16,15 @@ const typeIcons = {
 };
 
 const ResourceSkeleton = () => (
-  <div className="animate-pulse p-6 h-full bg-white dark:bg-gray-800 rounded-lg">
-    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-    <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-4"></div>
-    <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+  <div className="animate-pulse rounded-xl overflow-hidden">
+    <div className="h-48 bg-gray-200 dark:bg-gray-700" />
+    <div className="p-6 space-y-4">
+      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
+      <div className="space-y-2">
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded" />
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6" />
+      </div>
+    </div>
   </div>
 );
 
@@ -30,10 +35,7 @@ const useDebounce = (value, delay) => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
+    return () => clearTimeout(handler);
   }, [value, delay]);
 
   return [debouncedValue];
@@ -44,7 +46,7 @@ const Resources = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [page, setPage] = useState(1);
-  const ITEMS_PER_PAGE = 9;
+  const ITEMS_PER_PAGE = 12;
   const [debouncedSearch] = useDebounce(searchTerm, 300);
 
   useEffect(() => {
@@ -58,8 +60,8 @@ const Resources = () => {
   }, []);
 
   if (loading) return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[...Array(6)].map((_, i) => <ResourceSkeleton key={i} />)}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8">
+      {[...Array(8)].map((_, i) => <ResourceSkeleton key={i} />)}
     </div>
   );
 
@@ -81,61 +83,95 @@ const Resources = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <main className="container mx-auto px-6 py-8">
-        <motion.h1
-          className="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Explore Our Resources
-        </motion.h1>
-
+      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 text-white py-8 mb-12">
         <motion.div
-          role="region"
-          aria-label="Resource filters"
-          className="mb-8 flex flex-col md:flex-row items-center gap-4"
+          className="container mx-auto px-6 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.8 }}
         >
-          <div className="relative w-full md:w-auto flex-grow">
-            <label htmlFor="resource-search" className="sr-only">Search resources</label>
-            <input
-              id="resource-search"
-              name="searchTerm"
-              type="text"
-              placeholder="Search resources..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full md:w-80 border border-gray-300 dark:border-gray-600 rounded-lg px-10 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-            />
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          </div>
-
-          <div className="flex gap-2 overflow-x-auto whitespace-nowrap scroll-smooth w-full md:w-auto">
-            {types.map(type => (
-              <Button
-                key={type}
-                variant={selectedType === type ? "default" : "outline"}
-                onClick={() => setSelectedType(type)}
-                className={`px-4 py-2 rounded ${selectedType === type ? 'bg-blue-600 text-white dark:bg-blue-500 dark:text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300'}`}
-                aria-pressed={selectedType === type}
-              >
-                {type}
-                <span className={`ml-2 px-2 py-1 text-xs rounded-full ${selectedType === type ? 'bg-blue-700 text-white dark:bg-blue-600' : 'bg-gray-300 text-gray-800 dark:bg-gray-600 dark:text-gray-300'}`}>
-                  {type === 'All' ? resources.length : resources.filter(r => r.type === type).length}
-                </span>
-              </Button>
-            ))}
-          </div>
+          <h1 className="text-4xl font-bold mb-4">QA Resources Hub</h1>
+          <p className="text-xl opacity-90">Curated collection of testing tools and materials</p>
         </motion.div>
+      </div>
+
+      <main className="container mx-auto px-6 py-8">
+        <div 
+          role="region" 
+          aria-label="Resource filters"
+          className="sticky top-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg py-4 border-b border-gray-200 dark:border-gray-700 mb-8"
+        >
+          <motion.div
+            className="flex flex-col md:flex-row items-center gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div 
+              className="relative group w-full md:w-96"
+              whileHover={{ scale: 1.02 }}
+            >
+              <label htmlFor="resource-search" className="sr-only">Search resources</label>
+              <input
+                id="resource-search"
+                name="searchTerm"
+                type="text"
+                placeholder="Search resources..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-12 py-3 rounded-full border-2 border-gray-200 
+                         focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20
+                         dark:bg-gray-800 dark:border-gray-700 dark:text-white 
+                         transition-all duration-300"
+              />
+              <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <AnimatePresence>
+                {searchTerm && (
+                  <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2"
+                    onClick={() => setSearchTerm('')}
+                    aria-label="Clear search"
+                  >
+                    <FaTimes className="text-gray-400 hover:text-gray-600" />
+                  </motion.button>
+                )}
+              </AnimatePresence>
+            </motion.div>
+
+            <div className="flex gap-2 overflow-x-auto whitespace-nowrap w-full md:w-auto pb-2">
+              {types.map(type => (
+                <Button
+                  key={type}
+                  onClick={() => setSelectedType(type)}
+                  className={`px-4 py-2 rounded-full transition-all duration-300 ${
+                    selectedType === type 
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' 
+                      : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  }`}
+                  aria-pressed={selectedType === type}
+                >
+                  {type}
+                  <span className={`ml-2 px-2 py-1 text-xs rounded-full ${
+                    selectedType === type 
+                      ? 'bg-white/20' 
+                      : 'bg-gray-200 dark:bg-gray-700'
+                  }`}>
+                    {type === 'All' ? resources.length : resources.filter(r => r.type === type).length}
+                  </span>
+                </Button>
+              ))}
+            </div>
+          </motion.div>
+        </div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8 auto-rows-fr"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5 }}
         >
           {filteredResources.length === 0 ? (
             <div className="col-span-full text-center py-10">
@@ -152,35 +188,50 @@ const Resources = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Card
-                  className="p-6 h-full flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                  onClick={() => window.open(resource.link, '_blank')}
+                  className="group p-6 h-full flex flex-col bg-white dark:bg-gray-800 
+                           rounded-xl shadow-lg hover:shadow-2xl transform 
+                           transition-all duration-300 hover:-translate-y-2"
                 >
-                  <div className="card-header flex items-center gap-2 mb-2 text-xl font-semibold text-gray-800 dark:text-white">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r 
+                                from-blue-500 to-purple-500 rounded-t-xl" />
+                  <div className="flex items-center gap-3 mb-4">
                     {typeIcons[resource.type]}
-                    <span>{resource.title}</span>
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                      {resource.title}
+                    </h2>
                   </div>
-                  <div className="card-description text-sm text-gray-500 dark:text-gray-400 mb-2">{resource.type}</div>
-                  <div className="card-content flex-grow text-gray-600 dark:text-gray-300 mb-4">
-                    <p>{resource.description}</p>
-                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
+                    {resource.description}
+                  </p>
                   {resource.tags && (
-                    <div className="flex gap-2 mt-2 mb-4">
+                    <div className="flex flex-wrap gap-2 mb-6">
                       {resource.tags.map(tag => (
-                        <span key={tag} className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 rounded-full">
+                        <span 
+                          key={tag} 
+                          className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 
+                                   rounded-full text-gray-700 dark:text-gray-300"
+                        >
                           {tag}
                         </span>
                       ))}
                     </div>
                   )}
-                  <a
-                    href={resource.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full mt-auto bg-blue-600 text-white dark:bg-blue-500 rounded-lg py-2 text-center block transition-colors duration-200 hover:bg-blue-700 dark:hover:bg-blue-600"
-                    aria-label={`Access ${resource.title}`}
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="mt-auto"
                   >
-                    Access Resource
-                  </a>
+                    <a
+                      href={resource.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full py-3 px-4 bg-gradient-to-r from-blue-600 
+                               to-purple-600 hover:from-blue-700 hover:to-purple-700 
+                               text-white text-center rounded-lg transition-all duration-300"
+                      aria-label={`Access ${resource.title}`}
+                    >
+                      Access Resource
+                    </a>
+                  </motion.div>
                 </Card>
               </motion.div>
             ))

@@ -64,8 +64,8 @@ const UserManagement = () => {
           <header className="mb-8">
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
               <div>
-                <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">
-                  User Management
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                  User Data Management
                 </h1>
                 <p className="text-lg text-gray-600 dark:text-gray-300">
                   Efficiently manage and view user information

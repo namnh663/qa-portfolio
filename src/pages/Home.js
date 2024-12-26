@@ -2,7 +2,6 @@ import Footer from '../components/common/Footer';
 import AboutMe from '../components/home/AboutMe';
 import WorkExperience from '../components/home/WorkExperience';
 import Skills from '../components/home/Skills';
-import Projects from '../components/home/Projects';
 import Certificates from '../components/home/Certificates';
 
 const Home = () => {
@@ -13,7 +12,6 @@ const Home = () => {
         <AboutMe />
         <WorkExperience />
         <Skills />
-        <Projects />
         <Certificates />
       </main>
       <Footer />

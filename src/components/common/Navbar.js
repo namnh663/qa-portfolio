@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
@@ -19,99 +20,108 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape') {
-      setIsToolsOpen(false);
-    }
-  };
-
   return (
-    <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
-      <nav className="container mx-auto px-6 py-3 transition-all duration-200">
+    <header className="bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg sticky top-0 z-50">
+      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold text-gray-800 dark:text-white">Brian</span>
-          
-          <button 
-            className="md:hidden text-gray-800 dark:text-white"
+          <Link to="/" className="group">
+            <span className="text-2xl font-bold text-white tracking-tight group-hover:text-blue-200 transition-colors duration-300">
+              Brian
+            </span>
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                    d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
             </svg>
-          </button>
+          </motion.button>
 
-          <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:flex md:items-center absolute md:relative top-16 md:top-0 left-0 md:left-auto w-full md:w-auto bg-white dark:bg-gray-800 md:bg-transparent p-4 md:p-0 space-y-4 md:space-y-0 md:space-x-4`}>
-            <Link 
-              to="/" 
-              className={`block md:inline-block ${isActive('/') ? 'text-blue-600 font-semibold' : 'text-gray-800'} dark:text-white hover:text-blue-600 transition-colors duration-200`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/blog" 
-              className={`block md:inline-block ${isActive('/blog') ? 'text-blue-600 font-semibold' : 'text-gray-800'} dark:text-white hover:text-blue-600 transition-colors duration-200`}
-            >
-              Blog
-            </Link>
-            <Link 
-              to="/learning" 
-              className={`block md:inline-block ${isActive('/learning') ? 'text-blue-600 font-semibold' : 'text-gray-800'} dark:text-white hover:text-blue-600 transition-colors duration-200`}
-            >
-              Learning
-            </Link>
-            
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {['Home', 'Blog', 'Learning'].map((item) => (
+              <Link
+                key={item}
+                to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                className={`text-white text-lg font-medium hover:text-blue-200 transition-colors duration-300 
+                  ${isActive(item === 'Home' ? '/' : `/${item.toLowerCase()}`) ? 'border-b-2 border-white' : ''}`}
+              >
+                {item}
+              </Link>
+            ))}
+
             <div className="relative" ref={dropdownRef}>
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
-                onKeyDown={handleKeyDown}
-                className="text-gray-800 dark:text-white hover:text-blue-600 flex items-center gap-1 transition-colors duration-200"
-                aria-haspopup="true"
+                className="text-white text-lg font-medium hover:text-blue-200 transition-colors duration-300 
+                          flex items-center gap-2 focus:outline-none"
                 aria-expanded={isToolsOpen}
               >
                 Tools
-                <span className={`transform transition-transform duration-200 ${isToolsOpen ? 'rotate-180' : ''}`}>▼</span>
-              </button>
-              
-              {isToolsOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 transition-all ease-out duration-200"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="tools-menu"
+                <motion.span
+                  animate={{ rotate: isToolsOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <Link
-                    to="/airport"
-                    className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 transition-colors duration-200"
-                    role="menuitem"
+                  ▼
+                </motion.span>
+              </motion.button>
+
+              <AnimatePresence>
+                {isToolsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl"
                   >
-                    Airport Calculator
-                  </Link>
-                  <Link
-                    to="/user-management"
-                    className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 transition-colors duration-200"
-                    role="menuitem"
-                  >
-                    User Management
-                  </Link>
-                  <Link
-                    to="/json-viewer"
-                    className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 transition-colors duration-200"
-                    role="menuitem"
-                  >
-                    JSON Viewer
-                  </Link>
-                  <Link
-                    to="/resources"
-                    className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 transition-colors duration-200"
-                    role="menuitem"
-                  >
-                    Resources
-                  </Link>
-                </div>
-              )}
+                    {['Airport Calculator', 'User Management', 'JSON Viewer', 'Resources'].map((item) => (
+                      <Link
+                        key={item}
+                        to={`/${item.toLowerCase().replace(' ', '-')}`}
+                        className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 
+                                 rounded-lg transition-colors duration-200 first:rounded-t-xl last:rounded-b-xl"
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden mt-4"
+            >
+              <div className="flex flex-col space-y-3 bg-white/10 rounded-lg p-4">
+                {['Home', 'Blog', 'Learning'].map((item) => (
+                  <Link
+                    key={item}
+                    to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                    className="text-white text-lg font-medium hover:bg-white/20 rounded-lg px-4 py-2 transition-colors"
+                  >
+                    {item}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

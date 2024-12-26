@@ -45,7 +45,7 @@ const JsonViewer = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <main className="container mx-auto p-4 space-y-4 px-6 py-8">
-        <h1 className="text-2xl font-bold mb-6">JSONPath Query Tool</h1>
+        <h1 className="text-3xl font-bold mb-6">JSONPath Query Tool</h1>
         <Card>
           <Card.Header>
             <Card.Title>JSON Input</Card.Title>

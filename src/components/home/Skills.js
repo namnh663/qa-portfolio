@@ -19,7 +19,7 @@ const Skills = () => {
     return (
         <section id="skills" className="py-8" aria-labelledby="skills-title">
             <div className="container mx-auto">
-                <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-xl p-6">
+                <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
                     <h2
                         id="skills-title"
                         data-testid="skill-title"
