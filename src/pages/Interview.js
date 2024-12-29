@@ -4,9 +4,11 @@ import { fetchInterviewQA, fetchTopics } from '../services/fetchInterviewQA';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import Card from '../components/ui/Card';
 import Footer from '../components/common/Footer';
+import MarkdownRenderer from '../components/ui/MarkdownRenderer';
 
 const Interview = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
   const [selectedTopic, setSelectedTopic] = useState('All');
   const [expandedAnswers, setExpandedAnswers] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,6 +16,11 @@ const Interview = () => {
   const { data: questions, loading, error } = useFetch(fetchInterviewQA);
 
   const itemsPerPage = 10;
+
+  useEffect(() => {
+    const timer = setTimeout(() => setSearchTerm(debouncedSearch), 300);
+    return () => clearTimeout(timer);
+  }, [debouncedSearch]);
 
   useEffect(() => {
     const loadTopics = async () => {
@@ -40,6 +47,15 @@ const Interview = () => {
 
   const totalPages = Math.ceil(filteredQuestions.length / itemsPerPage);
 
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === 'ArrowLeft') setCurrentPage(prev => Math.max(prev - 1, 1));
+      if (e.key === 'ArrowRight') setCurrentPage(prev => Math.min(prev + 1, totalPages));
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [totalPages]);
+
   const toggleAnswer = (id) => {
     setExpandedAnswers(prev => ({ ...prev, [id]: !prev[id] }));
   };
@@ -56,25 +72,21 @@ const Interview = () => {
     setExpandedAnswers({});
   };
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <p>Error loading interview questions</p>;
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
-      <main className="container mx-auto px-6 py-12">
-        <h1 className="text-4xl font-extrabold mb-12 text-center text-gray-800 dark:text-white">
+      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <h1 className="text-3xl sm:text-4xl font-extrabold mb-8 sm:mb-12 text-center text-gray-800 dark:text-white">
           Technical Interview Questions
         </h1>
         
-        <div className="max-w-3xl mx-auto space-y-6">
-          {/* Search Input with Icon */}
+        <div className="max-w-4xl mx-auto space-y-6">
           <div className="relative">
             <input
               type="text"
               id="search-input"
               placeholder="Search questions and answers..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={debouncedSearch}
+              onChange={(e) => setDebouncedSearch(e.target.value)}
               className="w-full p-4 pl-12 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-700 transition duration-200"
               aria-label="Search questions and answers"
             />
@@ -83,58 +95,79 @@ const Interview = () => {
             </svg>
           </div>
 
-          {/* Topic Tabs */}
-          <div className="flex space-x-4 overflow-x-auto">
+          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
             {topics.map(topic => (
               <button
                 key={topic}
                 onClick={() => setSelectedTopic(topic)}
-                className={`px-4 py-2 rounded-lg ${selectedTopic === topic ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300'} transition duration-200`}
+                className={`px-4 py-2 rounded-full text-sm md:text-base ${
+                  selectedTopic === topic 
+                    ? 'bg-blue-500 text-white shadow-lg transform scale-105' 
+                    : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700'
+                } transition-all duration-300`}
               >
                 {topic}
               </button>
             ))}
           </div>
 
-          {/* Open/Hide All Answers Buttons */}
-          <div className="flex justify-end space-x-4">
-            <button
-              onClick={openAllAnswers}
-              className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-200"
-            >
-              Open All Answers
-            </button>
-            <button
-              onClick={hideAllAnswers}
-              className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
-            >
-              Hide All Answers
-            </button>
+          <div className="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg">
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={openAllAnswers}
+                className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-200"
+              >
+                Open All Answers
+              </button>
+              <button
+                onClick={hideAllAnswers}
+                className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
+              >
+                Hide All Answers
+              </button>
+            </div>
           </div>
 
-          {/* Questions Grid */}
-          <div className="grid gap-8">
-            {paginatedQuestions.map((q) => (
-              <Card key={q.id} className="transform hover:scale-[1.01] transition-transform duration-200">
-                <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">{q.question}</h2>
-                <button
-                  onClick={() => toggleAnswer(q.id)}
-                  className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
-                  aria-expanded={expandedAnswers[q.id]}
-                  aria-controls={`answer-${q.id}`}
-                >
-                  {expandedAnswers[q.id] ? 'Hide Answer' : 'Show Answer'}
-                </button>
-                {expandedAnswers[q.id] && (
-                  <p id={`answer-${q.id}`} className="mt-4 text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
-                    {q.answer}
-                  </p>
-                )}
-              </Card>
-            ))}
+          <div className="transition-opacity duration-300 ease-in-out">
+            {loading ? (
+              <LoadingSpinner className="w-12 h-12 mx-auto" />
+            ) : error ? (
+              <div className="text-red-500 text-center p-4 bg-red-100 rounded-lg">
+                {error.message}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-6">
+                {paginatedQuestions.map((q) => (
+                  <Card 
+                    key={q.id} 
+                    className="p-6 hover:shadow-xl dark:hover:shadow-2xl-dark transition-all duration-300"
+                  >
+                    <span className="inline-block px-3 py-1 text-sm rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 mb-4">
+                      {q.topic}
+                    </span>
+                    <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">{q.question}</h2>
+                    <button
+                      onClick={() => toggleAnswer(q.id)}
+                      className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+                      aria-expanded={expandedAnswers[q.id]}
+                      aria-controls={`answer-${q.id}`}
+                    >
+                      {expandedAnswers[q.id] ? 'Hide Answer' : 'Show Answer'}
+                    </button>
+                    {expandedAnswers[q.id] && (
+                      <div id={`answer-${q.id}`} className="mt-4">
+                        <MarkdownRenderer 
+                          content={q.answer}
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed"
+                        />
+                      </div>
+                    )}
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Pagination */}
           <div className="flex justify-center items-center gap-4 mt-12">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
