@@ -40,7 +40,47 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Rest of the code remains the same */}
+                    <div className="space-y-6">
+                        <h3 className="text-2xl font-semibold border-b-2 border-blue-500 pb-2 inline-block">Frontend Stack</h3>
+                        <div className="grid grid-cols-3 gap-8">
+                            <div className="group flex flex-col items-center transition-all duration-300 hover:-translate-y-2" aria-label="React technology">
+                                <FaReact className="h-12 w-12 text-blue-400 group-hover:animate-spin" />
+                                <span className="mt-2 group-hover:text-blue-400">React</span>
+                            </div>
+                            <div className="group flex flex-col items-center transition-all duration-300 hover:-translate-y-2" aria-label="Tailwind CSS technology">
+                                <SiTailwindcss className="h-12 w-12 text-cyan-400 group-hover:text-cyan-300" />
+                                <span className="mt-2 group-hover:text-cyan-300">Tailwind</span>
+                            </div>
+                            <div className="group flex flex-col items-center transition-all duration-300 hover:-translate-y-2" aria-label="JavaScript technology">
+                                <SiJavascript className="h-12 w-12 text-yellow-400 group-hover:text-yellow-300" />
+                                <span className="mt-2 group-hover:text-yellow-300">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-6">
+                        <h3 className="text-2xl font-semibold border-b-2 border-green-500 pb-2 inline-block">Backend Stack</h3>
+                        <div className="grid grid-cols-3 gap-8">
+                            <div className="group flex flex-col items-center transition-all duration-300 hover:-translate-y-2" aria-label="Node.js technology">
+                                <FaNodeJs className="h-12 w-12 text-green-500 group-hover:text-green-400" />
+                                <span className="mt-2 group-hover:text-green-400">Node.js</span>
+                            </div>
+                            <div className="group flex flex-col items-center transition-all duration-300 hover:-translate-y-2" aria-label="PostgreSQL technology">
+                                <SiPostgresql className="h-12 w-12 text-blue-400 group-hover:text-blue-300" />
+                                <span className="mt-2 group-hover:text-blue-300">PostgreSQL</span>
+                            </div>
+                            <div className="group flex flex-col items-center transition-all duration-300 hover:-translate-y-2" aria-label="Supabase technology">
+                                <SiSupabase className="h-12 w-12 text-emerald-500 group-hover:text-emerald-400" />
+                                <span className="mt-2 group-hover:text-emerald-400">Supabase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mt-16 pt-8 border-t border-gray-700">
+                    <p className="text-center text-gray-400 text-sm">
+                        © {new Date().getFullYear()} Brian. Crafted with passion and precision.
+                    </p>
                 </div>
             </div>
         </footer>
