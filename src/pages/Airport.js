@@ -51,15 +51,18 @@ function AirportDashboard() {
       <main className="container mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Airport Data Management</h1>
-          <input
-            type="text"
-            id="airport-search"
-            name="airport-search"
-            placeholder="Search airports..."
-            className="mt-4 md:mt-0 px-4 py-2 rounded-lg border dark:bg-gray-800 dark:text-white"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <div className="relative">
+            <label htmlFor="airport-search" className="sr-only">Search airports</label>
+            <input
+              type="text"
+              id="airport-search"
+              name="airport-search"
+              placeholder="Search airports..."
+              className="mt-4 md:mt-0 px-4 py-2 rounded-lg border dark:bg-gray-800 dark:text-white"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="mb-8">
@@ -83,34 +86,40 @@ function AirportDashboard() {
             <h2 className="text-xl font-bold mb-4">Distance Calculator</h2>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <select
-                  id="from-airport"
-                  name="from-airport"
-                  value={fromAirport}
-                  onChange={(e) => setFromAirport(e.target.value)}
-                  className="p-2 rounded-lg dark:bg-gray-800 dark:text-white"
-                >
-                  <option value="">From Airport</option>
-                  {airportsResponse?.data.map((airport) => (
-                    <option key={airport.id} value={airport.attributes.iata}>
-                      {airport.attributes.iata} - {airport.attributes.city}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  id="to-airport"
-                  name="to-airport"
-                  value={toAirport}
-                  onChange={(e) => setToAirport(e.target.value)}
-                  className="p-2 rounded-lg dark:bg-gray-800 dark:text-white"
-                >
-                  <option value="">To Airport</option>
-                  {airportsResponse?.data.map((airport) => (
-                    <option key={airport.id} value={airport.attributes.iata}>
-                      {airport.attributes.iata} - {airport.attributes.city}
-                    </option>
-                  ))}
-                </select>
+                <label>
+                  <span className="sr-only">From Airport</span>
+                  <select
+                    id="from-airport"
+                    name="from-airport"
+                    value={fromAirport}
+                    onChange={(e) => setFromAirport(e.target.value)}
+                    className="p-2 rounded-lg dark:bg-gray-800 dark:text-white w-full"
+                  >
+                    <option value="">From Airport</option>
+                    {airportsResponse?.data.map((airport) => (
+                      <option key={airport.id} value={airport.attributes.iata}>
+                        {airport.attributes.iata} - {airport.attributes.city}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span className="sr-only">To Airport</span>
+                  <select
+                    id="to-airport"
+                    name="to-airport"
+                    value={toAirport}
+                    onChange={(e) => setToAirport(e.target.value)}
+                    className="p-2 rounded-lg dark:bg-gray-800 dark:text-white w-full"
+                  >
+                    <option value="">To Airport</option>
+                    {airportsResponse?.data.map((airport) => (
+                      <option key={airport.id} value={airport.attributes.iata}>
+                        {airport.attributes.iata} - {airport.attributes.city}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               </div>
               <Button
                 onClick={calculateDistance}
@@ -162,14 +171,14 @@ function AirportDashboard() {
           <Card>
             <h2 className="text-xl font-bold mb-4">Airports Directory</h2>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px]">
+              <table className="w-full min-w-[640px]" role="table">
                 <thead>
                   <tr className="text-left">
-                    <th className="p-4 whitespace-nowrap">IATA</th>
-                    <th className="p-4 whitespace-nowrap">Name</th>
-                    <th className="p-4 whitespace-nowrap">City</th>
-                    <th className="p-4 whitespace-nowrap">Country</th>
-                    <th className="p-4 whitespace-nowrap">Coordinates</th>
+                    <th className="p-4 whitespace-nowrap" scope="col">IATA</th>
+                    <th className="p-4 whitespace-nowrap" scope="col">Name</th>
+                    <th className="p-4 whitespace-nowrap" scope="col">City</th>
+                    <th className="p-4 whitespace-nowrap" scope="col">Country</th>
+                    <th className="p-4 whitespace-nowrap" scope="col">Coordinates</th>
                   </tr>
                 </thead>
                 <tbody>
