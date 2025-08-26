@@ -20,7 +20,7 @@ const Footer = () => {
                                 <FaEnvelope className="h-7 w-7 hover:text-blue-400" />
                             </a>
                             <a 
-                                href="https://www.linkedin.com/in/namnh663" 
+                                href="https://www.linkedin.com/in/namnhbr" 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
                                 className="transform hover:scale-110 transition-transform duration-300"
