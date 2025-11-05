@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/common/Navbar';
 import Home from './pages/Home';
-import Blog from './pages/Blog';
-import BlogDetail from './pages/BlogDetail';
-import Topic from './pages/Topic';
 import Resources from './pages/Resources';
 import NotFound from './pages/NotFound';
 import Error from './pages/Error';
@@ -29,9 +26,6 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogDetail />} />
-            <Route path="/topics/:topic" element={<Topic />} />
             <Route path="/learning" element={<Learning />} />
             <Route path="/learning/:id" element={<LearningPost />} />
             <Route path="/resources" element={<Resources />} />
