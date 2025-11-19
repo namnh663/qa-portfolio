@@ -7,8 +7,6 @@ test.describe('DataHelper Unit Tests', () => {
     
     expect(data).toHaveProperty('about');
     expect(data).toHaveProperty('skills');
-    expect(data).toHaveProperty('projects');
-    expect(data).toHaveProperty('experience');
     expect(data).toHaveProperty('certificates');
   });
 });

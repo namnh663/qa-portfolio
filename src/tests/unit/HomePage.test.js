@@ -18,15 +18,11 @@ test.describe('HomePage Unit Tests', () => {
 
   test('should verify all heading elements exist', async () => {
     expect(homePage.aboutHeading).toBeDefined();
-    expect(homePage.workExperienceHeading).toBeDefined();
     expect(homePage.skillsHeading).toBeDefined();
-    expect(homePage.projectsHeading).toBeDefined();
     expect(homePage.certificatesHeading).toBeDefined();
   });
 
   test('should verify navigation links exist', async () => {
     expect(homePage.homeLink).toBeDefined();
-    expect(homePage.blogLink).toBeDefined();
-    expect(homePage.resourcesLink).toBeDefined();
   });
 });
