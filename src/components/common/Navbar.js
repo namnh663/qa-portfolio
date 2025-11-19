@@ -14,7 +14,9 @@ const navigationItems = [
     children: [
       { name: 'Airport Calculator', href: '/airport-calculator' },
       { name: 'User Management', href: '/user-management' },
+      { name: 'Character Counter', href: '/character-counter' },
       { name: 'JSON Viewer', href: '/json-viewer' },
+      { name: 'XPath Validator', href: '/xpath-validator' },
       { name: 'Resources', href: '/resources' },
     ],
   },

@@ -8,7 +8,9 @@ import Error from './pages/Error';
 import Learning from './pages/Learning';
 import LearningPost from './pages/LearningPost';
 import Airport from './pages/Airport';
+import CharacterCounter from './pages/CharacterCounter';
 import JsonViewer from './pages/JsonViewer';
+import XPathValidator from './pages/XPathValidator';
 import Interview from './pages/Interview';
 import UserManagement from './pages/UserManagement';
 
@@ -30,7 +32,9 @@ function App() {
             <Route path="/learning/:id" element={<LearningPost />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/airport-calculator" element={<Airport />} />
+            <Route path="/character-counter" element={<CharacterCounter />} />
             <Route path="/json-viewer" element={<JsonViewer />} />
+            <Route path="/xpath-validator" element={<XPathValidator />} />
             <Route path="/interview" element={<Interview />} />
             <Route path="/user-management" element={<UserManagement />} />
             <Route path="*" element={<NotFound />} />
