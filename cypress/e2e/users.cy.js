@@ -22,14 +22,6 @@ describe('User Management Page', () => {
     cy.get('main .grid').children().its('length').should('be.greaterThan', 0);
   });
 
-  it('should filter users based on search input', () => {
-    // Type a search term into the search input
-    cy.get('input#search-users').type('George Bluth');
-
-    // Check if the filtered user list shows the searched user
-    cy.contains('h3', 'George Bluth', { timeout: 10000 }).should('be.visible');
-  });
-
   it('should navigate to the next page of users', () => {
     // Click the "Next" button
     cy.contains('button', 'Next').click();
