@@ -16,6 +16,7 @@ const navigationItems = [
       { name: 'User Management', href: '/user-management' },
       { name: 'Character Counter', href: '/character-counter' },
       { name: 'JSON Viewer', href: '/json-viewer' },
+      { name: 'Test Strategy Builder', href: '/test-strategy-builder' },
       { name: 'XPath Validator', href: '/xpath-validator' },
       { name: 'Resources', href: '/resources' },
     ],

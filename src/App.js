@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/common/Navbar';
 import Home from './pages/Home';
@@ -10,6 +10,7 @@ import LearningPost from './pages/LearningPost';
 import Airport from './pages/Airport';
 import CharacterCounter from './pages/CharacterCounter';
 import JsonViewer from './pages/JsonViewer';
+import TestStrategyBuilder from './pages/TestStrategyBuilder';
 import XPathValidator from './pages/XPathValidator';
 import Interview from './pages/Interview';
 import UserManagement from './pages/UserManagement';
@@ -34,6 +35,7 @@ function App() {
             <Route path="/airport-calculator" element={<Airport />} />
             <Route path="/character-counter" element={<CharacterCounter />} />
             <Route path="/json-viewer" element={<JsonViewer />} />
+            <Route path="/test-strategy-builder" element={<TestStrategyBuilder />} />
             <Route path="/xpath-validator" element={<XPathValidator />} />
             <Route path="/interview" element={<Interview />} />
             <Route path="/user-management" element={<UserManagement />} />
