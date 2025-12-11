@@ -1,147 +1,128 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react';
 import useFetch from '../hooks/useFetch';
 import { fetchRelatedPosts } from '../services/fetchRelatedPosts';
 import { fetchLearningDetail } from '../services/fetchLearningDetail';
-import PostMetadata from '../components/ui/PostMetadata';
 import TableOfContents from '../components/TableOfContents';
-import MarkdownRenderer from '../components/ui/MarkdownRenderer';
-import RelatedPosts from '../components/RelatedPosts';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import BackToLearningHub from '../components/ui/BackToLearningHub';
-import NotFound from './NotFound';
+import MarkdownRenderer from '../components/ui/MarkdownRenderer'; // Assuming you have this
+import RelatedPosts from '../components/home/RelatedPosts';
+import Skeleton from '../components/common/Skeleton'; // Reusing our Skeleton
 import Footer from '../components/common/Footer';
-
-// The "little effect" you wanted: a simple, clean fade-in.
-const mainVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.4, ease: 'easeOut' }
-  },
-};
-
-const relatedVariants = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1, 
-    transition: { duration: 0.4, delay: 0.2 } 
-  },
-};
 
 const LearningPost = () => {
   const { id } = useParams();
   const { data: post, loading, error } = useFetch(fetchLearningDetail, id);
-  const { data: relatedPosts = [] } = useFetch(fetchRelatedPosts, id);
+  const { data: relatedPosts } = useFetch(fetchRelatedPosts, id);
 
-  if (loading) return <LoadingSpinner />;
-  if (error || !post) return <NotFound />;
+  // --- Loading State (Skeleton) ---
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 py-12 max-w-5xl">
+          <Skeleton className="h-4 w-24 mb-8" />
+          <Skeleton className="h-12 w-3/4 mb-4" /> {/* Title */}
+          <div className="flex gap-4 mb-12">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+          <div className="grid lg:grid-cols-3 gap-12">
+             <div className="lg:col-span-2 space-y-4">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+                <Skeleton className="h-64 w-full rounded-xl my-8" />
+                <Skeleton className="h-4 w-full" />
+             </div>
+             <div className="hidden lg:block">
+                <Skeleton className="h-40 w-full" />
+             </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !post) return <div className="text-center py-20">Post not found</div>;
 
   return (
-    // 1. "Google-like" Style: Simple, clean white (or dark) background.
-    //    All content lives directly on the page.
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
       
-      {/* 2. Centered, Constrained Content:
-            - max-w-screen-xl provides ample space for the two-column layout.
-            - Generous vertical padding for a clean, uncluttered feel.
-      */}
-      <main 
-        className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 
-                   py-12 sm:py-16"
-        role="main"
-        aria-labelledby="post-title"
-      >
-        <div className="mb-8 sm:mb-12">
-          {/* This component could be styled with a blue link and an arrow
-              (e.g., text-blue-600) for a true "Google" feel. */}
-          <BackToLearningHub />
-        </div>
-
-        {/* 3. Functional Two-Column Layout (like Google docs):
-             - Grid layout for alignment.
-             - lg:gap-x-16 gives a wide, clean gutter.
-        */}
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
-
-          {/* Sidebar (Table of Contents)
-            - order-2: Appears *after* content on mobile.
-            - lg:order-2: Stays on the right for desktop.
-            - sticky top-24: Sticks for easy navigation.
-          */}
-          <aside className="lg:col-span-3 lg:order-2 order-2 mt-12 lg:mt-0">
-            <div className="sticky top-24">
-              <h3 
-                className="text-sm font-semibold tracking-wide uppercase 
-                           text-gray-600 dark:text-gray-400 mb-4"
-              >
-                On this page
-              </h3>
-              <TableOfContents />
-            </div>
-          </aside>
-
-          {/* Main Article Content
-            - order-1: Appears *first* on mobile.
-            - lg:order-1: Stays on the left for desktop.
-          */}
-          <motion.article
-            className="lg:col-span-9 lg:order-1 order-1"
-            variants={mainVariants}
-            initial="hidden"
-            animate="visible"
+      {/* 1. Header Section */}
+      <header className="border-b border-gray-100 dark:border-gray-800">
+        <div className="container mx-auto px-4 py-12 max-w-5xl">
+          {/* Back Link */}
+          <Link 
+            to="/learning" 
+            className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 transition-colors mb-8"
           >
-            <header className="mb-8">
-              {/* 4. Clean, Sans-Serif Typography:
-                   - Back to default sans-serif font.
-                   - Bold, but not overly large.
-              */}
-              <h1 
-                id="post-title"
-                className="text-3xl sm:text-4xl font-bold tracking-tight mb-6"
-              >
-                {post.title}
-              </h1>
-              
-              <PostMetadata {...post} />
-            </header>
-            
-            {/* 5. Subtle Dividers: A light border, very "Material Design". */}
-            <hr className="my-8 border-gray-200 dark:border-gray-700" />
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Knowledge Base
+          </Link>
 
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <MarkdownRenderer content={post.content} />
+          {/* Title */}
+          <motion.h1 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight"
+          >
+            {post.title}
+          </motion.h1>
+
+          {/* Metadata Row */}
+          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+            <div className="flex items-center gap-2">
+               <Calendar className="w-4 h-4" />
+               {new Date(post.date || Date.now()).toLocaleDateString()}
             </div>
-          </motion.article>
-
-        </div> {/* End of grid layout */}
-
-        {/* Related Posts Section */}
-        <motion.section 
-          className="mt-16 sm:mt-24"
-          variants={relatedVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Placed in the same column as the article for alignment */}
-          <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
-            <div className="lg:col-span-9 lg:order-1">
-              <hr className="mb-12 border-gray-200 dark:border-gray-700" />
-              <h2 
-                className="text-2xl sm:text-3xl font-bold tracking-tight mb-6 sm:mb-8"
-              >
-                Related Posts
-              </h2>
-              <RelatedPosts
-                currentPostId={post.id}
-                posts={relatedPosts || []}
-              />
+            <div className="flex items-center gap-2">
+               <Tag className="w-4 h-4" />
+               <span className="font-medium text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">
+                 {post.category}
+               </span>
+            </div>
+            <div className="flex items-center gap-2">
+               <Clock className="w-4 h-4" />
+               {Math.ceil((post.content?.length || 0) / 1000)} min read
             </div>
           </div>
-        </motion.section>
+        </div>
+      </header>
 
+      <main className="container mx-auto px-4 py-12 max-w-5xl">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-16">
+          
+          {/* 2. Article Content (Left/Main Column) */}
+          <article className="lg:col-span-8">
+            <motion.div
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 0.2 }}
+               className="prose prose-lg dark:prose-invert max-w-none 
+                          prose-headings:font-bold prose-headings:tracking-tight 
+                          prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
+                          prose-img:rounded-xl prose-img:shadow-lg"
+            >
+               {/* Using 'react-markdown' or your existing MarkdownRenderer here.
+                  Assuming 'content' is markdown string. 
+               */}
+               <MarkdownRenderer content={post.content} />
+            </motion.div>
+          </article>
+
+          {/* 3. Sidebar (Right Column) - Sticky Table of Contents */}
+          <aside className="hidden lg:block lg:col-span-4">
+             <div className="sticky top-8">
+                <TableOfContents />
+             </div>
+          </aside>
+
+        </div>
+
+        {/* 4. Footer Section: Related Posts */}
+        <RelatedPosts currentPostId={post.id} posts={relatedPosts} />
       </main>
+
       <Footer />
     </div>
   );
